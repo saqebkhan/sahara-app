@@ -1,9 +1,9 @@
 {
   "routes": [
     { "src": "/", "dest": "/" },
-    { "src": "/viewInmate", "dest": "/" },
-    { "src": "/inmates", "dest": "/" },
-    { "src": "/dashboard", "dest": "/" },
-    { "src": "/addForm", "dest": "/" }
+    { "src": "/viewInmate", "dest": "/viewInmate" },
+    { "src": "/inmates", "dest": "/inmates" },
+    { "src": "/dashboard", "dest": "/dashboard" },
+    { "src": "/addForm", "dest": "/addForm" }
   ]
 }
