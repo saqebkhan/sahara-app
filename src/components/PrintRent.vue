@@ -1,6 +1,6 @@
 <template>
   <div class="payslip">
-    <img class="watermark" src="../assets/1000083374.png" alt="Your Company" />
+    <img class="watermark" src="../assets/sahara-logo.png" alt="Your Company" />
     <h1 class="title">SAHAR BOYS HOSTEL</h1>
     <div class="address">
       <p>
