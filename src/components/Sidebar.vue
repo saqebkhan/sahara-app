@@ -244,6 +244,9 @@
             >
               {{ store.selectedHostel }}
             </h2>
+            <button @click="store.selectedHostel = 'SAHARA GROUP OF HOSTELS'">
+              Reset
+            </button>
           </div>
           <div class="flex items-center gap-x-4 lg:gap-x-6">
             <!-- Separator -->

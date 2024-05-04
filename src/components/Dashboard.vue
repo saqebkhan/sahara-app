@@ -28,7 +28,7 @@
 
 <script setup>
 import ArrowRight from "../assets/ArrowRight.vue";
-import { inmates } from "./inmates.js";
+// import inmates  from "./inmates.js";
 import { useRouter } from "vue-router";
 import { useStore } from "../store.js";
 
@@ -77,6 +77,6 @@ const cards = [
 
 const goToHostel = (hostel) => {
   store.selectedHostel = hostel;
-  router.push('/inmates');
+  router.push("/inmates");
 };
 </script>

@@ -403,8 +403,9 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
-
+import { ref, computed, watch, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import axios from "axios";
 const subscriptionAmount = ref("");
 const selectedOption = ref("");
 const choosenAmount = ref("");
@@ -437,36 +438,21 @@ const options = computed(() => {
   return null;
 });
 
+const route = useRoute();
+const id = route.query.id;
+
 const submitForm = (e) => {
   e.preventDefault();
-  console.log(inmate.value);
-
-  const endpoint =
-    "https://hostelprojectsaqib20240425171205.azurewebsites.net/api/User/CreateUser";
-
-  const formData = { createUserRequest: true, ...inmate.value };
-
-  fetch(endpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      console.log(response);
-      return response;
-    })
-    .then((data) => {
-      console.log("Form submitted successfully:", data);
-    })
-    .catch((error) => {
-      console.error("There was a problem with the form submission:", error);
-    });
+  axios.put(`https://sahara-api-f8yp.vercel.app/inmates/${id}`, inmate.value);
 };
+
+onMounted(async () => {
+  await axios
+    .get("https://sahara-api-f8yp.vercel.app/allInmates")
+    .then((res) => {
+      inmate.value = res.data.find((i) => i._id === id);
+    });
+});
 
 const inmate = ref({
   name: "",

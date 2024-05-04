@@ -1,5 +1,8 @@
 <template>
-  <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+  <div v-if="!inmate" class="m-auto top-0 bottom-0 left-0 right-0 text-2xl">
+    Loading...
+  </div>
+  <div v-if="inmate" class="overflow-hidden bg-white shadow sm:rounded-lg">
     <div class="flex">
       <div class="px-4 py-6 sm:px-6">
         <h3 class="text-base font-semibold leading-7 text-gray-900">
@@ -11,11 +14,9 @@
       </div>
       <div class="px-4 py-6 sm:px-6">
         <h3 class="text-base font-semibold leading-7 text-gray-900">
-          Created By
+          Created At
         </h3>
-        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-          {{ inmate.createdBy }}, at {{ inmate.createdAt }}
-        </p>
+        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500"></p>
       </div>
     </div>
     <div class="border-t border-gray-200">
@@ -95,6 +96,9 @@
                   <span class="text-md font-semibold text-green-800">{{
                     history.payAmount
                   }}</span>
+                  <span class="text-md font-semibold text-green-800">{{
+                    history.paidYear
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -158,65 +162,74 @@
 </template>
 <script setup>
 import { PaperClipIcon } from "@heroicons/vue/20/solid";
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
-const inmate = {
-  name: "Saqeb Khan",
-  fatherName: "Abdul Samad Khan",
-  email: "dsds",
-  permanentAddress: "Aurangabad",
-  contactNumber: "8788566695",
-  parentsContactNumber: "9765755151",
-  emergencyContactNumber: "8421297867",
-  placeOfWorkOrStudy: "Gachibowli",
-  dateOfJoining: "01/02/2024",
-  aadharNumber: "714197273551",
-  expectedDateOfLeaving: "31/03/2024",
-  amountDeposited: "2000",
-  monthlySubscriptionAmount: "6500",
-  roomNumber: "9",
-  bedNumber: "4",
-  saharaHostelNumber: "Sahara 1",
-  bikeRegistrationNumber: "No",
-  permanentAddressPincode: "we",
-  sharingRoom: "4",
-  payHistory: [
-    {
-      payMonth: "Jan",
-      payAmount: 6500,
-    },
-    {
-      payMonth: "Feb",
-      payAmount: 6500,
-    },
-    {
-      payMonth: "Mar",
-      payAmount: 6500,
-    },
-    {
-      payMonth: "Apr",
-      payAmount: 6500,
-    },
-  ],
-  createdBy: "Sohel Khan",
-  createdAt: new Date(),
-};
+// Inside your component setup block
+const route = useRoute();
 
-const sections = [
-  { label: "Full name", value: inmate.name },
-  { label: "Father Name", value: inmate.fatherName },
-  { label: "Permanent Address", value: inmate.permanentAddress },
-  { label: "Place of work/job", value: inmate.placeOfWorkOrStudy },
-  { label: "Contact number", value: inmate.contactNumber },
-  { label: "Parents Contact Number", value: inmate.parentsContactNumber },
-  { label: "Expected date of leaving", value: inmate.expectedDateOfLeaving },
-  { label: "Date of Joining", value: inmate.dateOfJoining },
-  { label: "Aadhar number", value: inmate.aadharNumber },
-  { label: "Emergency Contact Number", value: inmate.emergencyContactNumber },
-  { label: "Deposit Amount", value: inmate.amountDeposited },
-  { label: "Monthly Rent", value: inmate.monthlySubscriptionAmount },
-  { label: "Branch number", value: inmate.saharaHostelNumber },
-  { label: "Room number", value: inmate.roomNumber },
-  { label: "Bed number", value: inmate.bedNumber },
-  { label: "Bike registration number", value: inmate.bikeRegistrationNumber },
-];
+// Access the query parameters using route.query
+const paramValue = route.query.param;
+const idValue = route.query.id;
+
+const inmate = ref(null);
+const sections = ref([]);
+
+onMounted(() => {
+  // const id = route.query.id;
+  // Define the API endpoint
+  const endpoint = "https://sahara-api-f8yp.vercel.app/allInmates"; // Change 'your-endpoint' to the actual endpoint you want to call
+
+  // Fetch data from the API
+  fetch(endpoint)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Parse the JSON response
+    })
+    .then((data) => {
+      console.log(idValue);
+      inmate.value = data.find((item) => item._id === idValue);
+      console.log(inmate.value); // Log the retrieved data
+
+      // Populate the sections array
+      sections.value = [
+        { label: "Full name", value: inmate.value.name },
+        { label: "Father Name", value: inmate.value.fatherName },
+        { label: "Permanent Address", value: inmate.value.permanentAddress },
+        { label: "Place of work/job", value: inmate.value.placeOfWorkOrStudy },
+        { label: "Contact number", value: inmate.value.contactNumber },
+        {
+          label: "Parents Contact Number",
+          value: inmate.value.parentsContactNumber,
+        },
+        {
+          label: "Expected date of leaving",
+          value: inmate.value.expectedDateOfLeaving,
+        },
+        { label: "Date of Joining", value: inmate.value.dateOfJoining },
+        { label: "Aadhar number", value: inmate.value.aadharNumber },
+        {
+          label: "Emergency Contact Number",
+          value: inmate.value.emergencyContactNumber,
+        },
+        { label: "Deposit Amount", value: inmate.value.amountDeposited },
+        {
+          label: "Monthly Rent",
+          value: inmate.value.monthlySubscriptionAmount,
+        },
+        { label: "Branch number", value: inmate.value.saharaHostelBranch },
+        { label: "Room number", value: inmate.value.roomNumber },
+        { label: "Bed number", value: inmate.value.bedNumber },
+        {
+          label: "Bike registration number",
+          value: inmate.value.bikeRegistrationNumber,
+        },
+      ];
+    })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+});
 </script>
