@@ -1,29 +1,37 @@
 name: Sahara App - prod
 
-env: 
-    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  push:
+    branches:
+      - prod
 
-on: 
-    push: 
-        branch:
-        - prod
-      
-jobs: 
-    Deploy-Deployment:
-      runs-on: ubunto-latest
-      steps: 
+jobs:
+  build:
+    name: Optimized Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-          - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
 
-          - name: Install Vercel CLI
-             run: npm install --global vercel
+      - name: Install dependencies
+        run: npm install
 
-          - name: Vercel Pull Environment Information
-              run: vercel pull --yes --enviornment=deployment --tokent=${{ secrets.VERCEL_TOKEN }}
+      - name: Build project
+        run: npm run build
 
-          - name: Build Project Artifacts
-              run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-          - name: Deploy Project Artifacts
-              run: vercel deploy --prebuild --prod --token=${{ secrets.VERCEL_TOKEN }}
+  deploy:
+    name: Netlify Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to Netlify
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        with:
+          args: deploy --prod
