@@ -239,12 +239,17 @@
         >
           <div class="relative flex flex-1" action="#" method="GET">
             <label for="search-field" class="sr-only">Search</label>
-            <h2
-              class="text-3xl font-sans font-semibold ml-20 text-center text-gray-900 mt-3"
+            <div class="grid grid-cols-6">
+              <h2
+                class="text-nowrap text-3xl font-sans font-semibold ml-20 text-center text-gray-900 mt-3"
+              >
+                {{ store.selectedHostel }}
+              </h2>
+            </div>
+            <button
+              class="float-right bg-orange-700 rounded-md w-20 h-10 mt-3 text-white"
+              @click="resetSelectedHostel"
             >
-              {{ store.selectedHostel }}
-            </h2>
-            <button @click="store.selectedHostel = 'SAHARA GROUP OF HOSTELS'">
               Reset
             </button>
           </div>
@@ -365,6 +370,10 @@ const navigation = [
 
 const switchCurrent = (item) => {
   router.push(item.route);
+};
+
+const resetSelectedHostel = () => {
+  store.selectedHostel = "SAHARA GROUP OF HOSTELS";
 };
 
 const logout = () => {

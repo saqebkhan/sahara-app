@@ -221,7 +221,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import RefundDialog from "./RefundDialog.vue";
 import DeleteDialog from "./DeleteDialog.vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
@@ -246,8 +246,18 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error fetching inmates:", error);
   }
-  await selectedHostelInmates();
+  selectedHostelInmates();
 });
+
+watch(
+  () => store.selectedHostel,
+  (newValue, oldValue) => {
+    console.log(newValue);
+    if (newValue !== oldValue) {
+      selectedHostelInmates();
+    }
+  }
+);
 
 const selectedHostelInmates = () => {
   selectedHostelItems.value = inmates.value.filter((element) => {
@@ -258,41 +268,6 @@ const selectedHostelInmates = () => {
     }
   });
 };
-
-const reduceDay = async () => {
-  try {
-    // Step 1: Fetch all users from the database
-    const response = await axios.get(
-      "https://sahara-api-f8yp.vercel.app/allInmates"
-    );
-    const users = response.data;
-
-    // Step 2: Iterate through each user and update paidDays
-    for (const user of users) {
-      // Ensure the user has payHistory and at least one entry
-      if (user.payHistory && user.payHistory.length > 0) {
-        const lastPayment = user.payHistory[user.payHistory.length - 1];
-        // Subtract 1 from paidDays
-        lastPayment.paidDays -= 1;
-      }
-    }
-
-    // Step 3: Make PUT requests to update each user
-    for (const user of users) {
-      await axios.put(
-        `https://sahara-api-f8yp.vercel.app/inmates/${user._id}`,
-        user
-      );
-    }
-
-    console.log("Successfully reduced paidDays for all users.");
-  } catch (error) {
-    console.error("Error reducing paidDays:", error);
-  }
-};
-
-// Step 4: Schedule reduceDay function to run every 24 hours
-setInterval(reduceDay, 24 * 60 * 60 * 1000);
 
 const refundDialog = ref(false);
 const refundingItem = ref(null);

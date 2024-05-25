@@ -50,7 +50,7 @@ const cards = [
       "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
   },
   {
-    title: "Sahara Boys Hostel 3",
+    title: "Sahara Luxury",
     hostel: "Sahara 3",
     description:
       "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
@@ -68,7 +68,7 @@ const cards = [
       "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
   },
   {
-    title: "Sahara Boys Hostel 6",
+    title: "Sahara Hall",
     hostel: "Sahara 6",
     description:
       "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
