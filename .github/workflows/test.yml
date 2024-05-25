@@ -3,7 +3,7 @@ name: Sahara App - test
 on:
   push:
     branches:
-      - test
+      - dev
 
 jobs:
   build:
