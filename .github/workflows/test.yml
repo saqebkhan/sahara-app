@@ -1,10 +1,9 @@
-name: Sahara App - prod
-
+name: Sahara App - test
 
 on:
   push:
     branches:
-      - prod
+      - test
 
 jobs:
   build:
@@ -35,4 +34,4 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         with:
-          args: deploy --prod
+          args: deploy --test
