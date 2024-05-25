@@ -14,7 +14,7 @@
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
           <h1 class="text-base font-semibold leading-6 text-gray-900 pb-3">
-            Search by - Name, Number, Rent
+            Search by - Name, Number, Rent.
           </h1>
           <form class="relative flex flex-1 mt-2" action="#" method="GET">
             <label for="search-field" class="sr-only">Search</label>
