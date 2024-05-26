@@ -1,6 +1,6 @@
 <template>
   <div class="payslip">
-    <img class="watermark" src="../assets/sahara-logo.png" alt="Your Company" />
+    <img class="watermark" :src="saharaLogo" alt="Your Company" />
     <h1 class="title">SAHAR BOYS HOSTEL</h1>
     <div class="address">
       <p>
@@ -73,6 +73,8 @@
 </template>
 
 <script setup>
+import saharaLogo from "../../../assets/sahara-logo.png";
+
 const payslipData = {
   name: "Saqeb Khan",
   fatherName: "Abdul Samad Khan",
