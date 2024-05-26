@@ -60,21 +60,22 @@
                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4"
               >
                 <div class="flex h-16 shrink-0 items-center">
-                  <img
-                    class="h-8 w-auto"
-                    src="../assets/sahara-logo.png"
-                    alt="Your Company"
-                  />
+                  <img class="h-8 w-auto" :src="logo" alt="Your Company" />
                 </div>
                 <nav class="flex flex-1 flex-col">
                   <ul role="list" class="flex flex-1 flex-col gap-y-7">
                     <li>
                       <ul role="list" class="-mx-2 space-y-1">
-                        <li v-for="item in navigation" :key="item.name">
+                        <li
+                          class="cursor-pointer"
+                          v-for="item in navigation"
+                          :key="item.name"
+                        >
                           <a
                             :href="item.href"
+                            @click="switchCurrent(item)"
                             :class="[
-                              item.current
+                              $route.path === item.route
                                 ? 'bg-gray-50 text-indigo-600'
                                 : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                               'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
@@ -83,7 +84,7 @@
                             <component
                               :is="item.icon"
                               :class="[
-                                item.current
+                                $route.path === item.route
                                   ? 'text-indigo-600'
                                   : 'text-gray-400 group-hover:text-indigo-600',
                                 'h-6 w-6 shrink-0',
@@ -95,37 +96,7 @@
                         </li>
                       </ul>
                     </li>
-                    <li>
-                      <div
-                        class="text-xs font-semibold leading-6 text-gray-400"
-                      >
-                        Your teams
-                      </div>
-                      <ul role="list" class="-mx-2 mt-2 space-y-1">
-                        <li v-for="team in teams" :key="team.name">
-                          <a
-                            :href="team.href"
-                            :class="[
-                              team.current
-                                ? 'bg-gray-50 text-indigo-600'
-                                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
-                            ]"
-                          >
-                            <span
-                              :class="[
-                                team.current
-                                  ? 'text-indigo-600 border-indigo-600'
-                                  : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
-                                'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white',
-                              ]"
-                              >{{ team.initial }}</span
-                            >
-                            <span class="truncate">{{ team.name }}</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
+
                     <li class="mt-auto">
                       <a
                         href="#"
@@ -157,11 +128,7 @@
         class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4"
       >
         <div class="flex h-16 shrink-0 items-center">
-          <img
-            class="h-14 w-auto"
-            src="../assets/sahara-logo.png"
-            alt="Your Company"
-          />
+          <img class="h-14 w-auto" :src="logo" alt="Your Company" />
         </div>
         <nav class="flex flex-1 flex-col">
           <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -330,11 +297,9 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useStore } from "../store.js";
+import { useStore } from "../../../store";
+import logo from "../../../assets/sahara-logo.png";
 
-const store = useStore();
-
-const router = useRouter();
 import {
   Dialog,
   DialogPanel,
@@ -347,7 +312,6 @@ import {
 } from "@headlessui/vue";
 import {
   Bars3Icon,
-  BellIcon,
   CalendarIcon,
   ChartPieIcon,
   Cog6ToothIcon,
@@ -358,6 +322,10 @@ import {
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+
+const store = useStore();
+
+const router = useRouter();
 
 const navigation = [
   { name: "Dashboard", route: "/dashboard", icon: HomeIcon, current: true },

@@ -189,9 +189,7 @@ onMounted(() => {
       return response.json(); // Parse the JSON response
     })
     .then((data) => {
-      console.log(idValue);
       inmate.value = data.find((item) => item._id === idValue);
-      console.log(inmate.value); // Log the retrieved data
 
       // Populate the sections array
       sections.value = [

@@ -48,7 +48,8 @@
                   >
                   <div class="mt-2">
                     <p class="text-sm text-gray-500">
-                      Are you sure you want to refund full amount to this member?
+                      Are you sure you want to refund full amount to this
+                      member?
                     </p>
                   </div>
                 </div>

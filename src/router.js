@@ -1,19 +1,17 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Dashboard from "./components/Dashboard.vue";
-import InmatesList from "./components/InmatesList.vue";
-import ViewInmate from "./components/ViewInmate.vue";
-import PrintRent from "./components/PrintRent.vue";
-import AddForm from "./components/AddForm.vue";
-import EditForm from "./components/EditForm.vue";
-import AddRent from "./components/AddRent.vue";
+import Dashboard from "./components/modules/Inmates/Dashboard.vue";
+import InmatesList from "./components/modules/Inmates/InmatesList.vue";
+import ViewInmate from "./components/modules/Inmates/ViewInmate.vue";
+import PrintRent from "./components/modules/Inmates/PrintRent.vue";
+import AddEditForm from "./components/modules/Inmates/AddEditForm.vue";
+import AddRent from "./components/modules/Inmates/AddRent.vue";
 const routes = [
   { path: "/dashboard", component: Dashboard },
   { path: "/inmates", component: InmatesList },
   { path: "/viewInmate", component: ViewInmate },
   { path: "/printRent", component: PrintRent },
-  { path: "/addForm", component: AddForm },
-  { path: "/editForm", component: EditForm },
+  { path: "/addEditForm", component: AddEditForm },
   { path: "/addRent", component: AddRent },
 ];
 
