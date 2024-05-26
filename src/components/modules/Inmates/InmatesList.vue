@@ -13,17 +13,17 @@
     <div class="px-4 sm:px-6 lg:px-8">
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-          <h1 class="text-base font-semibold leading-6 text-gray-900 pb-3">
+          <h1 class="text-base font-semibold leading-6 pb-3">
             Search by - Name, Number, Rent.
           </h1>
-          <form class="relative flex flex-1 mt-2" action="#" method="GET">
+          <form class="relative flex flex-1 mt-2">
             <label for="search-field" class="sr-only">Search</label>
             <MagnifyingGlassIcon
               class="pointer-events-none absolute inset-y-0 left-2 h-full w-5 text-gray-400"
               aria-hidden="true"
             />
             <input
-              class="block h-full w-full py-2 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 focus:border-gray-400 sm:text-sm border rounded-md border-gray-200"
+              class="block h-full w-full py-2 pl-8 pr-0 placeholder:text-gray-400 focus:ring-0 focus:border-gray-400 sm:text-sm border rounded-md border-gray-200"
               placeholder="Search..."
               v-model="search"
             />
@@ -32,8 +32,9 @@
         <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <button
             type="button"
-            @click="$router.push('addForm')"
-            class="block rounded-md bg-indigo-600 px-3 py-2 mt-11 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            @click="$router.push('/addEditForm')"
+            :class="commonHeaderClasses"
+            class="block rounded-md bg-indigo-600 px-3 py-2 mt-11 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add user
           </button>
@@ -45,83 +46,43 @@
             <table class="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr class="bg-gray-800 pr-4 divide-x">
-                  <th
-                    scope="col"
-                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                  >
-                    <a href="#" class="group inline-flex font-bold text-white">
-                      <span class="ml-4 caret-teal-100">SR. NO.</span>
-                      <span
-                        class="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible"
-                      ></span>
-                    </a>
-                  </th>
-                  <th
-                    scope="col"
-                    class="py-3.5 pl-4 pr-6 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                  >
-                    <a
-                      href="#"
-                      class="group ml-2 inline-flex font-bold text-white"
-                      >NAME</a
+                  <th scope="col" :class="commonHeaderClasses">
+                    <a href="#" :class="[commonAnchorClasses, 'text-nowrap']"
+                      >SR. NO.</a
                     >
                   </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    <a href="#" class="group inline-flex font-bold text-white"
-                      >NUMBER</a
-                    >
+
+                  <th scope="col" :class="commonHeaderClasses">
+                    <a href="#" :class="commonAnchorClasses">NAME</a>
                   </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    <a href="#" class="group inline-flex font-bold text-white"
-                      >DEPOSIT</a
-                    >
+                  <th scope="col" ::class="commonHeaderClasses">
+                    <a href="#" :class="commonAnchorClasses">NUMBER</a>
                   </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    <a href="#" class="group inline-flex font-bold text-white"
+                  <th scope="col" :class="commonHeaderClasses">
+                    <a href="#" :class="commonAnchorClasses">DEPOSIT</a>
+                  </th>
+                  <th scope="col" :class="commonHeaderClasses">
+                    <a href="#" :class="[commonAnchorClasses, 'text-nowrap']"
                       >ROOM NO.</a
                     >
                   </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    <a href="#" class="group inline-flex font-bold text-white"
-                      >DATE OF JOINING</a
-                    >
+                  <th scope="col" :class="commonHeaderClasses">
+                    <a href="#" :class="commonAnchorClasses">DATE OF JOINING</a>
+                  </th>
+                  <th scope="col" :class="commonHeaderClasses">
+                    <a href="#" :class="commonAnchorClasses">RENT</a>
                   </th>
                   <th
                     scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold"
-                  >
-                    <a href="#" class="group inline-flex font-bold text-white"
-                      >RENT</a
-                    >
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    :class="commonHeaderClasses"
                     @click="toggleSort"
                   >
-                    <a href="#" class="group inline-flex font-bold text-white"
+                    <a href="#" :class="[commonAnchorClasses, 'text-nowrap']"
                       >DAYS LEFT</a
                     >
                   </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    <a href="#" class="group inline-flex font-bold text-white"
-                      >ACTIONS</a
-                    >
+                  <th scope="col" :class="commonHeaderClasses">
+                    <a href="#" :class="commonAnchorClasses">ACTIONS</a>
                   </th>
                 </tr>
               </thead>
@@ -132,56 +93,55 @@
                   class="hover:bg-gray-100 divide-x"
                 >
                   <td
-                    class="whitespace-nowrap bg-gray-300 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 flex"
+                    class="whitespace-nowrap bg-gray-200 py-5 text-sm font-medium sm:pl-0 flex"
                   >
                     <span class="ml-8">{{ index + 1 }}</span>
                   </td>
                   <td
-                    class="whitespace-nowrap uppercase py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0"
+                    :class="[
+                      commonTableDataClasses,
+                      'uppercase font-medium text-gray-900',
+                    ]"
                   >
                     <div class="flex">
                       <img
                         @click="viewInmate(person)"
-                        src="../assets/eye.svg"
+                        :src="eyeIcon"
                         alt=""
                         class="w-4 h-4 mr-2 mt-0.5 ml-2 cursor-pointer"
                       />
                       <span>{{ person.name }}</span>
                     </div>
                   </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <td :class="commonTableDataClasses">
                     {{ person.contactNumber }}
                   </td>
                   <td
-                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 flex cursor-pointer"
+                    :class="[commonTableDataClasses, 'flex cursor-pointer']"
                     @click="refund(person)"
                   >
                     {{ person.amountDeposited }}
                     <img
                       class="ml-1 h-3.5 w-3.5 mt-0.5"
-                      src="../assets/refund.svg"
+                      :src="refundIcon"
                       alt=""
                     />
                   </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <td :class="commonTableDataClasses">
                     {{ person.roomNumber }}
                   </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <td :class="commonTableDataClasses">
                     {{ person.dateOfJoining }}
                   </td>
                   <td
-                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 flex cursor-pointer"
+                    :class="[commonTableDataClasses, 'flex cursor-pointer']"
                     @click="addRent(person)"
                   >
                     <span>{{ person.monthlySubscriptionAmount }}</span>
-                    <img
-                      class="w-4 h-4 ml-1 mt-1"
-                      src="../assets/pay.svg"
-                      alt=""
-                    />
+                    <img class="w-4 h-4 ml-1 mt-1" :src="cashIcon" alt="" />
                   </td>
                   <td
-                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                    class="whitespace-nowrap px-3 py-4 text-sm"
                     :class="
                       person.payHistory[person.payHistory.length - 1].paidDays <
                       4
@@ -193,19 +153,17 @@
                       person.payHistory[person.payHistory.length - 1].paidDays
                     }}
                   </td>
-                  <td
-                    class="flex relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-0"
-                  >
+                  <td :class="[commonTableDataClasses, 'flex relative']">
                     <img
                       @click="editItem(person)"
                       class="w-4 h-4 cursor-pointer"
-                      src="../assets/edit.svg"
+                      :src="editIcon"
                       alt=""
                     />
                     <img
                       @click="deleteItem(person)"
                       class="w-4 h-4 ml-3 cursor-pointer"
-                      src="../assets/delete.svg"
+                      :src="deleteIcon"
                       alt=""
                     />
                   </td>
@@ -227,7 +185,12 @@ import DeleteDialog from "./DeleteDialog.vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { useRouter } from "vue-router";
 import axios from "axios";
-import { useStore } from "../store";
+import { useStore } from "../../../store";
+import editIcon from "../../../assets/edit.svg";
+import deleteIcon from "../../../assets/delete.svg";
+import cashIcon from "../../../assets/pay.svg";
+import eyeIcon from "../../../assets/eye.svg";
+import refundIcon from "../../../assets/refund.svg";
 
 const selectedHostelItems = ref([]);
 const inmates = ref([]);
@@ -242,7 +205,6 @@ onMounted(async () => {
       "https://sahara-api-f8yp.vercel.app/allInmates"
     );
     inmates.value = response.data;
-    console.log(inmates.value);
   } catch (error) {
     console.error("Error fetching inmates:", error);
   }
@@ -252,12 +214,23 @@ onMounted(async () => {
 watch(
   () => store.selectedHostel,
   (newValue, oldValue) => {
-    console.log(newValue);
     if (newValue !== oldValue) {
       selectedHostelInmates();
     }
   }
 );
+
+const commonHeaderClasses = computed(() => {
+  return "p-3 text-center text-sm font-semibold";
+});
+
+const commonAnchorClasses = computed(() => {
+  return "group inline-flex font-bold text-white";
+});
+
+const commonTableDataClasses = computed(() => {
+  return " whitespace-nowrap py-4 px-3 text-sm text-gray-600";
+});
 
 const selectedHostelInmates = () => {
   selectedHostelItems.value = inmates.value.filter((element) => {
@@ -290,11 +263,15 @@ const filteredItems = computed(() => {
 
   // Sorting logic based on sortDirection
   if (sortDirection.value === "asc") {
-    return filtered.sort((a, b) => Number(a.bedNumber) - Number(b.bedNumber));
+    return filtered.sort((a, b) => Number(a.paidDays) - Number(b.paidDays));
   } else {
-    return filtered.sort((a, b) => Number(b.bedNumber) - Number(a.bedNumber));
+    return filtered.sort((a, b) => Number(b.paidDays) - Number(a.paidDays));
   }
 });
+
+const toggleSort = () => {
+  sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
+};
 
 const refund = (item) => {
   refundDialog.value = true;
@@ -316,11 +293,13 @@ const close = (val) => {
 };
 
 const editItem = (person) => {
-  router.push({ path: "/editForm", query: { param: "edit", id: person._id } });
+  router.push({
+    path: "/addEditForm",
+    query: { param: "edit", id: person._id },
+  });
 };
 
 const viewInmate = (person) => {
-  console.log(person);
   router.push({
     path: "/viewInmate",
     query: {
@@ -331,6 +310,9 @@ const viewInmate = (person) => {
 };
 
 const addRent = (person) => {
-  router.push("/addRent");
+  router.push({
+    path: "/addRent",
+    query: { param: "addRent", id: person._id },
+  });
 };
 </script>

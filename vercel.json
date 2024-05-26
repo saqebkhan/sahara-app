@@ -4,6 +4,6 @@
     { "src": "/viewInmate", "dest": "/viewInmate" },
     { "src": "/inmates", "dest": "/inmates" },
     { "src": "/dashboard", "dest": "/dashboard" },
-    { "src": "/addForm", "dest": "/addForm" }
+    { "src": "/addEditForm", "dest": "/addEditForm" }
   ]
 }

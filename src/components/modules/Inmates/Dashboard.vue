@@ -27,10 +27,9 @@
 </template>
 
 <script setup>
-import ArrowRight from "../assets/ArrowRight.vue";
-// import inmates  from "./inmates.js";
+import ArrowRight from "../../../assets/ArrowRight.vue";
 import { useRouter } from "vue-router";
-import { useStore } from "../store.js";
+import { useStore } from "../../../store.js";
 
 const store = useStore();
 

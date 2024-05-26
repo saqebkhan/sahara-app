@@ -116,11 +116,6 @@
     >
       Cancel
     </button>
-    {{ paymentMode }}
-    {{ paidTo }}
-    {{ payAmount }}
-    {{ payMonth }}
-    {{ paidDays }}
     <button
       :disabled="!isValidForm"
       type="submit"
