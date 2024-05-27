@@ -1,5 +1,6 @@
 <template>
-  <form>
+  <div v-if="store.isLoading">Loading...</div>
+  <form v-else>
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -339,10 +340,10 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, watch, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "../../../store";
 import axios from "axios";
-const subscriptionAmount = ref("");
 const selectedOption = ref("");
 const choosenAmount = ref("");
 
@@ -443,21 +444,49 @@ const commonLabelClasses = computed(() => {
 });
 
 const route = useRoute();
+
+const store = useStore();
 const id = route.query.id;
 
 const submitForm = (e) => {
   e.preventDefault();
-  if (id)
-    axios.put(`https://sahara-api-f8yp.vercel.app/inmates/${id}`, inmate.value);
-  else axios.post("https://sahara-api-f8yp.vercel.app/inmates", inmate.value);
+  if (id) {
+    try {
+      store.isLoading = true;
+      axios.put(
+        `https://sahara-api-f8yp.vercel.app/inmates/${id}`,
+        inmate.value
+      );
+    } catch (e) {
+      console.log(e);
+    } finally {
+      store.isLoading = false;
+    }
+  } else {
+    try {
+      store.isLoading = true;
+      axios.post("https://sahara-api-f8yp.vercel.app/inmates", inmate.value);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      store.isLoading = false;
+    }
+  }
 };
 
-onMounted(async () => {
+onBeforeMount(async () => {
   if (id)
-    await axios
-      .get("https://sahara-api-f8yp.vercel.app/allInmates")
-      .then((res) => {
-        inmate.value = res.data.find((i) => i._id === id);
-      });
+    try {
+      store.isLoading = true;
+      await axios
+        .get("https://sahara-api-f8yp.vercel.app/allInmates")
+        .then((res) => {
+          inmate.value = res.data.find((i) => i._id === id);
+        });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      store.isLoading = false;
+    }
 });
 </script>

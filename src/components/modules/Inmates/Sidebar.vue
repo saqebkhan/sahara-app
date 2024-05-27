@@ -210,7 +210,7 @@
               <h2
                 class="text-nowrap text-3xl font-sans font-semibold ml-20 text-center text-gray-900 mt-3"
               >
-                {{ store.selectedHostel }}
+                {{ store.selectedHostel }} {{ store.isLoading }}
               </h2>
             </div>
             <button

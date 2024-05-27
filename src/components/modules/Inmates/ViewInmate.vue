@@ -1,8 +1,11 @@
 <template>
-  <div v-if="!inmate" class="m-auto top-0 bottom-0 left-0 right-0 text-2xl">
+  <div
+    v-if="store.isLoading"
+    class="m-auto top-0 bottom-0 left-0 right-0 text-2xl"
+  >
     Loading...
   </div>
-  <div v-if="inmate" class="overflow-hidden bg-white shadow sm:rounded-lg">
+  <div v-else class="overflow-hidden bg-white shadow sm:rounded-lg">
     <div class="flex">
       <div class="px-4 py-6 sm:px-6">
         <h3 class="text-base font-semibold leading-7 text-gray-900">
@@ -162,9 +165,11 @@
 </template>
 <script setup>
 import { PaperClipIcon } from "@heroicons/vue/20/solid";
-import { onMounted, ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "../../../store";
 
+const store = useStore();
 // Inside your component setup block
 const route = useRoute();
 
@@ -172,12 +177,12 @@ const route = useRoute();
 const paramValue = route.query.param;
 const idValue = route.query.id;
 
-const inmate = ref(null);
 const sections = ref([]);
 
-onMounted(() => {
+onBeforeMount(() => {
   // const id = route.query.id;
   // Define the API endpoint
+  store.isLoading = true;
   const endpoint = "https://sahara-api-f8yp.vercel.app/allInmates"; // Change 'your-endpoint' to the actual endpoint you want to call
 
   // Fetch data from the API
@@ -228,6 +233,10 @@ onMounted(() => {
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
+    })
+    .finally(() => {
+      store.isLoading = false;
     });
 });
+const inmate = ref(null);
 </script>
