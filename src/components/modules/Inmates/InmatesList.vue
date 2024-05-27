@@ -1,5 +1,6 @@
 <template>
-  <div v-if="inmates && inmates.length">
+  <div v-if="store.isLoading">loading...</div>
+  <div v-else>
     <Dialog
       v-if="openDeleteDialog"
       actionButton="Delete"
@@ -184,11 +185,10 @@
       </div>
     </div>
   </div>
-  <div v-else>loading...</div>
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch } from "vue";
+import { computed, ref, onBeforeMount, watch } from "vue";
 import Dialog from "../../Common/Dialog.vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { useRouter } from "vue-router";
@@ -207,14 +207,17 @@ const router = useRouter();
 
 const store = useStore();
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
+    store.isLoading = true;
     const response = await axios.get(
       "https://sahara-api-f8yp.vercel.app/allInmates"
     );
     inmates.value = response.data;
   } catch (error) {
     console.error("Error fetching inmates:", error);
+  } finally {
+    store.isLoading = false;
   }
   selectedHostelInmates();
 });

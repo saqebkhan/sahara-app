@@ -5,5 +5,6 @@ export const useStore = defineStore({
   state: () => ({
     selectedHostel: "SAHARA GROUP OF HOSTELS",
     isAuthenticated: false,
+    isLoading: false,
   }),
 });

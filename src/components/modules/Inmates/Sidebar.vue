@@ -212,7 +212,7 @@
                 class="text-nowrap text-xl md:text-2xl lg:text-3xl font-sans font-semibold lg:ml-20 top-1/4 text-center m-0 absolute text-gray-900 cursor-pointer"
                 @click="resetSelectedHostel"
               >
-                {{ store.selectedHostel }}
+                {{ store.selectedHostel }} {{ store.isLoading }}
               </h2>
             </div>
           </div>
