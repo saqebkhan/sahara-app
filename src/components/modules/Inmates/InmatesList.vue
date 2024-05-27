@@ -1,14 +1,23 @@
 <template>
   <div v-if="inmates && inmates.length">
-    <RefundDialog
-      v-if="refundDialog"
+    <Dialog
+      v-if="openDeleteDialog"
+      actionButton="Delete"
+      closeButton="Cancel"
+      description="Are you sure you want to delete this member?"
+      title="Delete Inmate"
       @closeDialog="close"
-      :item="refundingItem"
+      @action="deleteInmate"
     />
-    <DeleteDialog
-      v-if="deleteDialog"
+    <Dialog
+      v-if="openRefundDialog"
+      actionButton="Refund"
+      closeButton="Cancel"
+      description="Are you sure you want to Refund this member?"
+      title="Refund Inmate"
+      :amount="refundingItem.amountDeposited"
       @closeDialog="close"
-      :item="deletingItem"
+      @action="refundInmate"
     />
     <div class="px-4 sm:px-6 lg:px-8">
       <div class="sm:flex sm:items-center">
@@ -180,8 +189,7 @@
 
 <script setup>
 import { computed, ref, onMounted, watch } from "vue";
-import RefundDialog from "./RefundDialog.vue";
-import DeleteDialog from "./DeleteDialog.vue";
+import Dialog from "../../Common/Dialog.vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { useRouter } from "vue-router";
 import axios from "axios";
@@ -242,9 +250,9 @@ const selectedHostelInmates = () => {
   });
 };
 
-const refundDialog = ref(false);
+const openDeleteDialog = ref(false);
+const openRefundDialog = ref(false);
 const refundingItem = ref(null);
-const deleteDialog = ref(false);
 const deletingItem = ref(null);
 const search = ref("");
 const sortDirection = ref("asc"); // Track sorting direction
@@ -273,20 +281,31 @@ const toggleSort = () => {
   sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
 };
 
+const deleteItem = (item) => {
+  openDeleteDialog.value = true;
+  deletingItem.value = item;
+};
+
+const deleteInmate = () => {
+  openDeleteDialog.value = false;
+  deletingItem.value = null;
+};
+
 const refund = (item) => {
-  refundDialog.value = true;
+  openRefundDialog.value = true;
   refundingItem.value = item;
 };
 
-const deleteItem = (item) => {
-  deleteDialog.value = true;
-  deletingItem.value = item;
+const refundInmate = (amount) => {
+  console.log(refundingItem, amount, "amount");
+  openRefundDialog.value = false;
+  refundingItem.value = null;
 };
 
 const close = (val) => {
   if (!val) {
-    refundDialog.value = false;
-    deleteDialog.value = false;
+    openDeleteDialog.value = false;
+    openRefundDialog.value = false;
   }
   refundingItem.value = null;
   deletingItem.value = null;

@@ -44,12 +44,19 @@
                   <DialogTitle
                     as="h3"
                     class="text-base font-semibold leading-6 text-gray-900"
-                    >Delete Inmate</DialogTitle
+                    >{{ props.title }}</DialogTitle
                   >
                   <div class="mt-2">
                     <p class="text-sm text-gray-500">
-                      Are you sure you want to delete this member?
+                      {{ props.description }}
                     </p>
+                    <input
+                      class="block h-full w-full py-2 mt-2 pr-0 placeholder:text-gray-400 focus:ring-0 focus:border-gray-400 sm:text-sm border rounded-md border-gray-200"
+                      placeholder="Refund Amount"
+                      v-if="props.title == 'Refund Inmate'"
+                      type="number"
+                      v-model="amount"
+                    />
                   </div>
                 </div>
               </div>
@@ -57,9 +64,9 @@
                 <button
                   type="button"
                   class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                  @click="open = false"
+                  @click="emitAction"
                 >
-                  Delete
+                  {{ props.actionButton }}
                 </button>
                 <button
                   type="button"
@@ -67,7 +74,7 @@
                   @click="closeDialog"
                   ref="cancelButtonRef"
                 >
-                  Cancel
+                  {{ props.closeButton }}
                 </button>
               </div>
             </DialogPanel>
@@ -78,7 +85,6 @@
   </TransitionRoot>
 </template>
 <script setup>
-import { ref, defineProps } from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -87,17 +93,27 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
-import { defineEmits } from "vue";
+import { defineEmits, defineProps, ref } from "vue";
 
 const props = defineProps({
-  item: Object,
+  amount: String,
+  actionButton: String,
+  closeButton: String,
+  description: String,
+  title: String,
 });
 
+const amount = ref(props.amount);
 const open = ref(true);
-const emits = defineEmits(["closeDialog"]);
+const emits = defineEmits(["closeDialog", "action"]);
 
 const closeDialog = () => {
   open.value = false;
   emits("closeDialog", false);
+};
+
+const emitAction = () => {
+  open.value = false;
+  emits("action", amount.value);
 };
 </script>
