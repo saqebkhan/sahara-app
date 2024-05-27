@@ -62,6 +62,7 @@
                 <div class="flex h-16 shrink-0 items-center">
                   <img class="h-8 w-auto" :src="logo" alt="Your Company" />
                 </div>
+                <!-- For small screens -->
                 <nav class="flex flex-1 flex-col">
                   <ul role="list" class="flex flex-1 flex-col gap-y-7">
                     <li>
@@ -206,19 +207,14 @@
         >
           <div class="relative flex flex-1" action="#" method="GET">
             <label for="search-field" class="sr-only">Search</label>
-            <div class="grid grid-cols-6">
+            <div class="grid grid-cols-6 relative">
               <h2
-                class="text-nowrap text-3xl font-sans font-semibold ml-20 text-center text-gray-900 mt-3"
+                class="text-nowrap text-xl md:text-2xl lg:text-3xl font-sans font-semibold lg:ml-20 top-1/4 text-center m-0 absolute text-gray-900 cursor-pointer"
+                @click="resetSelectedHostel"
               >
                 {{ store.selectedHostel }}
               </h2>
             </div>
-            <button
-              class="float-right bg-orange-700 rounded-md w-20 h-10 mt-3 text-white"
-              @click="resetSelectedHostel"
-            >
-              Reset
-            </button>
           </div>
           <div class="flex items-center gap-x-4 lg:gap-x-6">
             <!-- Separator -->
@@ -331,13 +327,14 @@ const navigation = [
   { name: "Dashboard", route: "/dashboard", icon: HomeIcon, current: true },
   { name: "Inmates List", route: "/inmates", icon: UsersIcon, current: false },
   { name: "Deleted", href: "#", icon: FolderIcon, current: false },
-  { name: "Finance", href: "#", icon: CalendarIcon, current: false },
+  { name: "Expense", href: "#", icon: CalendarIcon, current: false },
   { name: "Slots", href: "#", icon: DocumentDuplicateIcon, current: false },
   { name: "History", href: "#", icon: ChartPieIcon, current: false },
 ];
 
 const switchCurrent = (item) => {
   router.push(item.route);
+  sidebarOpen.value = sidebarOpen.value && false;
 };
 
 const resetSelectedHostel = () => {
