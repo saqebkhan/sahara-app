@@ -24,53 +24,53 @@
     </div>
     <div class="border-t border-gray-200">
       <dl class="divide-y divide-gray-200">
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <template v-for="(section, index) in sections" :key="section.label">
             <div v-if="index % 4 === 0" class="px-4 py-4">
               <dt class="text-sm font-medium text-gray-900">
-                {{ sections[index].label }}
+                {{ section.label }}
               </dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700">
-                {{ sections[index].value }}
+                {{ section.value }}
               </dd>
             </div>
           </template>
         </div>
 
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <template v-for="(section, index) in sections" :key="section.label">
             <div v-if="index % 4 === 1" class="px-4 py-4">
               <dt class="text-sm font-medium text-gray-900">
-                {{ sections[index].label }}
+                {{ section.label }}
               </dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700">
-                {{ sections[index].value }}
+                {{ section.value }}
               </dd>
             </div>
           </template>
         </div>
 
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <template v-for="(section, index) in sections" :key="section.label">
             <div v-if="index % 4 === 2" class="px-4 py-4">
               <dt class="text-sm font-medium text-gray-900">
-                {{ sections[index].label }}
+                {{ section.label }}
               </dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700">
-                {{ sections[index].value }}
+                {{ section.value }}
               </dd>
             </div>
           </template>
         </div>
 
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <template v-for="(section, index) in sections" :key="section.label">
             <div v-if="index % 4 === 3" class="px-4 py-4">
               <dt class="text-sm font-medium text-gray-900">
-                {{ sections[index].label }}
+                {{ section.label }}
               </dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700">
-                {{ sections[index].value }}
+                {{ section.value }}
               </dd>
             </div>
           </template>
@@ -162,41 +162,26 @@
       </dl>
     </div>
   </div>
+  
 </template>
 <script setup>
 import { PaperClipIcon } from "@heroicons/vue/20/solid";
 import { onBeforeMount, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "../../../store";
+import axios from "axios";
 
 const store = useStore();
-// Inside your component setup block
 const route = useRoute();
 
-// Access the query parameters using route.query
-const paramValue = route.query.param;
 const idValue = route.query.id;
 
-const sections = ref([]);
-
 onBeforeMount(() => {
-  // const id = route.query.id;
-  // Define the API endpoint
   store.isLoading = true;
-  const endpoint = "https://sahara-api-f8yp.vercel.app/allInmates"; // Change 'your-endpoint' to the actual endpoint you want to call
-
-  // Fetch data from the API
-  fetch(endpoint)
+  axios
+    .get("https://sahara-api-f8yp.vercel.app/allInmates")
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json(); // Parse the JSON response
-    })
-    .then((data) => {
-      inmate.value = data.find((item) => item._id === idValue);
-
-      // Populate the sections array
+      inmate.value = response.data.find((item) => item._id === idValue);
       sections.value = [
         { label: "Full name", value: inmate.value.name },
         { label: "Father Name", value: inmate.value.fatherName },
@@ -232,11 +217,13 @@ onBeforeMount(() => {
       ];
     })
     .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
+      console.error(error);
     })
     .finally(() => {
       store.isLoading = false;
     });
 });
+
 const inmate = ref(null);
+const sections = ref([]);
 </script>
