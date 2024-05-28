@@ -320,6 +320,7 @@
       </div>
     </div>
     <div class="mt-6 flex items-center justify-end gap-x-6">
+      <SuccessMessage v-if="showSuccessMessage" />
       <button
         type="button"
         class="text-sm font-semibold leading-6 text-gray-900"
@@ -331,20 +332,25 @@
         type="submit"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         @click="submitForm"
-      >
+       >
         Save
       </button>
     </div>
   </form>
+
 </template>
 
 <script setup>
 import { ref, computed, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
+import SuccessMessage from "./SuccessMessage.vue";
+
 const subscriptionAmount = ref("");
 const selectedOption = ref("");
 const choosenAmount = ref("");
+const showSuccessMessage = ref(false); 
+
 
 const inmate = ref({
   name: "",
@@ -446,11 +452,23 @@ const route = useRoute();
 const id = route.query.id;
 
 const submitForm = (e) => {
-  e.preventDefault();
-  if (id)
+ try{
+ e.preventDefault();
+  if (id){
     axios.put(`https://sahara-api-f8yp.vercel.app/inmates/${id}`, inmate.value);
-  else axios.post("https://sahara-api-f8yp.vercel.app/inmates", inmate.value);
-};
+    showSuccessMessage.value = true; }
+
+  else { axios.post("https://sahara-api-f8yp.vercel.app/inmates", inmate.value);
+  showSuccessMessage.value = true; 
+  }
+}
+catch(err) {
+  console.log(err.message);
+  showSuccessMessage.value = false;
+
+}
+}
+
 
 onMounted(async () => {
   if (id)
