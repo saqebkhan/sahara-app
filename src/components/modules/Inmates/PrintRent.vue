@@ -1,5 +1,6 @@
 <template>
-  <div class="payslip">
+  <div v-if="store.isLoading">Loading...</div>
+  <div v-else-if="!store.isLoading && payslipData" class="payslip">
     <img class="watermark" :src="saharaLogo" alt="Your Company" />
     <h1 class="title">SAHAR BOYS HOSTEL</h1>
     <div class="address">
@@ -74,27 +75,34 @@
 
 <script setup>
 import saharaLogo from "../../../assets/sahara-logo.png";
+import { useRoute } from "vue-router";
+import axios from "axios";
+import { onBeforeMount, ref } from "vue";
+import { useStore } from "../../../store";
 
-const payslipData = {
-  name: "Saqeb Khan",
-  fatherName: "Abdul Samad Khan",
-  email: "dsds",
-  permanentAddress: "Aurangabad",
-  contactNumber: "8788566695",
-  parentsContactNumber: "9765755151",
-  emergencyContactNumber: "8421297867",
-  placeOfWorkOrStudy: "Gachibowli",
-  dateOfJoining: "01/02/2024",
-  aadharNumber: "714197273551",
-  expectedDateOfLeaving: "31/03/2024",
-  amountDeposited: "2000",
-  monthlySubscriptionAmount: "6500",
-  roomNumber: "9",
-  bedNumber: "4",
-  saharaHostelNumber: "Sahara 1",
-  bikeRegistrationNumber: "No",
-  permanentAddressPincode: "we",
-};
+const store = useStore();
+
+const route = useRoute();
+const payslipData = ref(null);
+
+console.log("Mounted");
+
+onBeforeMount(() => {
+  const idValue = route.query.id;
+  try {
+    store.isLoading = true;
+    axios
+      .get("https://sahara-api-f8yp.vercel.app/allInmates")
+      .then((response) => {
+        payslipData.value = response.data.find((item) => item._id === idValue);
+      });
+    console.log(payslipData.value);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    store.isLoading = false;
+  }
+});
 </script>
 
 <style scoped>

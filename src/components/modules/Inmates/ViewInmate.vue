@@ -130,7 +130,7 @@
                 </div>
                 <div class="ml-4 flex-shrink-0">
                   <a
-                    @click="$router.push('/printRent')"
+                    @click="printDeposit"
                     class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                     >Print</a
                   >
@@ -150,7 +150,7 @@
                 </div>
                 <div class="ml-4 flex-shrink-0">
                   <a
-                    @click="$router.push('/printRent')"
+                    @click="printDeposit"
                     class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                     >Print</a
                   >
@@ -162,17 +162,17 @@
       </dl>
     </div>
   </div>
-  
 </template>
 <script setup>
 import { PaperClipIcon } from "@heroicons/vue/20/solid";
 import { onBeforeMount, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../../store";
 import axios from "axios";
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 
 const idValue = route.query.id;
 
@@ -223,6 +223,13 @@ onBeforeMount(() => {
       store.isLoading = false;
     });
 });
+
+const printDeposit = () => {
+  router.push({
+    path: "/printRent",
+    query: { param: "print", id: idValue },
+  });
+};
 
 const inmate = ref(null);
 const sections = ref([]);
