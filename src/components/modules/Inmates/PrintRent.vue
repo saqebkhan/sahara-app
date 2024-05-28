@@ -85,8 +85,6 @@ const store = useStore();
 const route = useRoute();
 const payslipData = ref(null);
 
-console.log("Mounted");
-
 onBeforeMount(() => {
   const idValue = route.query.id;
   try {
