@@ -15,19 +15,20 @@
           name="pay-month"
           class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
         >
-          <option value="">Select Month</option>
-          <option>Jan</option>
-          <option>Feb</option>
-          <option>Mar</option>
-          <option>Apr</option>
-          <option>May</option>
-          <option>Jun</option>
-          <option>Jul</option>
-          <option>Aug</option>
-          <option>Sep</option>
-          <option>Oct</option>
-          <option>Nov</option>
-          <option>Dec</option>
+          <option
+            disabled
+            value=""
+          >
+            Select Month
+          </option>
+          <option
+            v-for="month in months"
+            :key="month"
+            :value="month"
+            class="p-4 cursor-pointer"
+          >
+            {{ month }}
+          </option>
         </select>
       </div>
 
@@ -81,9 +82,20 @@
           name="pay-mode"
           class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
         >
-          <option value="">Select Payment Mode</option>
-          <option>Cash</option>
-          <option>Online</option>
+          <option
+            disabled
+            value=""
+          >
+            Select Payment Mode
+          </option>
+          <option
+            v-for="paymentMode in paymentModes"
+            :key="paymentMode"
+            :value="paymentMode"
+            class="p-4 cursor-pointer"
+          >
+            {{ paymentMode }}
+          </option>
         </select>
       </div>
       <div>
@@ -98,10 +110,20 @@
           name="pay-mode"
           class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
         >
-          <option value="">Select Payee</option>
-          <option>Faizullah Khan</option>
-          <option>Noorullah Khan</option>
-          <option>Sohel Khan</option>
+          <option
+            disabled
+            value=""
+          >
+            Select Payee
+          </option>
+          <option
+            v-for="payee in payees"
+            :key="payee"
+            :value="payee"
+            class="p-4 cursor-pointer"
+          >
+            {{ payee }}
+          </option>
         </select>
       </div>
     </div>
@@ -134,7 +156,22 @@ const payAmount = ref("");
 const paidDays = ref("");
 const paymentMode = ref("");
 const paidTo = ref("");
-
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+const paymentModes = ["Cash", "Online"];
+const payees = ["Faizullah Khan", "Noorullah Khan", "Sohel Khan"];
 const isValidForm = computed(() => {
   return (
     payMonth.value !== "" &&
