@@ -1,9 +1,3 @@
 {
-  "routes": [
-    { "src": "/", "dest": "/" },
-    { "src": "/viewInmate", "dest": "/viewInmate" },
-    { "src": "/inmates", "dest": "/inmates" },
-    { "src": "/dashboard", "dest": "/dashboard" },
-    { "src": "/addEditForm", "dest": "/addEditForm" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
