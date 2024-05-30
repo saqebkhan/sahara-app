@@ -5,6 +5,5 @@
     { "src": "/inmates", "dest": "/inmates" },
     { "src": "/dashboard", "dest": "/dashboard" },
     { "src": "/addEditForm", "dest": "/addEditForm" }
-  ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  ]
 }
