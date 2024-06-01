@@ -42,7 +42,7 @@
         <div class="mt-3 sm:ml-16 sm:mt-0 sm:flex-none">
           <button
             type="button"
-            @click="$router.push('/addEditForm')"
+            @click="$router.push({ name: RouteNames.ADD_EDIT_FORM })"
             :class="commonHeaderClasses"
             class="block rounded-md bg-indigo-600 px-3 py-2 mt-10 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
@@ -92,7 +92,11 @@
                       <th scope="col" :class="commonHeaderClasses">
                         <a href="#" :class="commonAnchorClasses">RENT</a>
                       </th>
-                      <th scope="col" :class="commonHeaderClasses">
+                      <th
+                        scope="col"
+                        @click="toggleSort"
+                        :class="commonHeaderClasses"
+                      >
                         <a
                           href="#"
                           :class="[commonAnchorClasses, 'text-nowrap']"
@@ -108,7 +112,7 @@
                     <!-- Table rows -->
                     <tr
                       v-for="(person, index) in filteredItems"
-                      :key="person.email"
+                      :key="person._id"
                       class="hover:bg-indigo-50 divide-x"
                     >
                       <td
@@ -124,9 +128,8 @@
                         ]"
                       >
                         <div class="flex">
-                          <img
-                            :src="eyeIcon"
-                            alt=""
+                          <component
+                            :is="EyeIcon"
                             class="w-4 h-4 mr-2 mt-0.5 ml-2 cursor-pointer"
                           />
                           <span>{{ person.name }}</span>
@@ -140,10 +143,9 @@
                         @click="refund(person)"
                       >
                         {{ person.amountDeposited }}
-                        <img
+                        <component
                           class="ml-1 h-3.5 w-3.5 mt-0.5"
-                          :src="refundIcon"
-                          alt=""
+                          :is="ArrowUturnUpIcon"
                         />
                       </td>
                       <td :class="commonTableDataClasses">
@@ -157,7 +159,10 @@
                         @click="addRent(person)"
                       >
                         <span>{{ person.monthlySubscriptionAmount }}</span>
-                        <img class="w-4 h-4 ml-1 mt-1" :src="cashIcon" alt="" />
+                        <component
+                          :is="BanknotesIcon"
+                          class="w-4 h-4 ml-1 mt-1"
+                        />
                       </td>
                       <td
                         class="whitespace-nowrap px-3 py-4 text-sm"
@@ -174,17 +179,15 @@
                         }}
                       </td>
                       <td :class="[commonTableDataClasses, 'flex']">
-                        <img
+                        <component
+                          :is="PencilSquareIcon"
                           @click="editItem(person)"
                           class="w-4 h-4 cursor-pointer"
-                          :src="editIcon"
-                          alt=""
                         />
-                        <img
+                        <component
+                          :is="TrashIcon"
                           @click="deleteItem(person)"
                           class="w-4 h-4 ml-3 cursor-pointer"
-                          :src="deleteIcon"
-                          alt=""
                         />
                       </td>
                     </tr>
@@ -205,12 +208,15 @@ import Dialog from "../../Common/Dialog.vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import {
+  PencilSquareIcon,
+  TrashIcon,
+  BanknotesIcon,
+  EyeIcon,
+  ArrowUturnUpIcon,
+} from "@heroicons/vue/24/outline";
 import { useStore } from "../../../store";
-import editIcon from "../../../assets/edit.svg";
-import deleteIcon from "../../../assets/delete.svg";
-import cashIcon from "../../../assets/pay.svg";
-import eyeIcon from "../../../assets/eye.svg";
-import refundIcon from "../../../assets/refund.svg";
+import { RouteNames } from "../../../router";
 
 const selectedHostelItems = ref([]);
 const inmates = ref([]);
@@ -283,12 +289,21 @@ const filteredItems = computed(() => {
         item.amountDeposited.toString().includes(searchTerm)
     );
   }
+  console.log(filtered);
 
-  // Sorting logic based on sortDirection
+  // Sorting logic based on sortDirection and paidDays
   if (sortDirection.value === "asc") {
-    return filtered.sort((a, b) => Number(a.paidDays) - Number(b.paidDays));
+    return filtered.sort(
+      (a, b) =>
+        Number(a.payHistory[a.payHistory.length - 1].paidDays) -
+        Number(b.payHistory[a.payHistory.length - 1].paidDays)
+    );
   } else {
-    return filtered.sort((a, b) => Number(b.paidDays) - Number(a.paidDays));
+    return filtered.sort(
+      (a, b) =>
+        Number(b.payHistory[a.payHistory.length - 1].paidDays) -
+        Number(a.payHistory[a.payHistory.length - 1].paidDays)
+    );
   }
 });
 
@@ -328,14 +343,14 @@ const close = (val) => {
 
 const editItem = (person) => {
   router.push({
-    path: "/addEditForm",
+    name: RouteNames.ADD_EDIT_FORM,
     query: { param: "edit", id: person._id },
   });
 };
 
 const viewInmate = (person) => {
   router.push({
-    path: "/viewInmate",
+    name: RouteNames.VIEW_INMATE,
     query: {
       param: "view",
       id: person._id,
@@ -345,7 +360,7 @@ const viewInmate = (person) => {
 
 const addRent = (person) => {
   router.push({
-    path: "/addRent",
+    name: RouteNames.ADD_RENT,
     query: { param: "addRent", id: person._id },
   });
 };
