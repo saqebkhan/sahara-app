@@ -74,17 +74,22 @@
 </template>
 
 <script setup>
-import { useStore } from "../../../store.js";
+import { useStore } from "../../store.js";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
-import logo from "../../../assets/sahara-logo.png";
+import logo from "../../assets/sahara-logo.png";
 
 const router = useRouter();
 const store = useStore();
 const passKey = ref("");
 
-const login = () => {
-  store.isAuthenticated = true;
-  router.push("/dashboard");
+const login = async () => {
+  try {
+    sessionStorage.setItem("isAuthenticated", true);
+    store.isAuthenticated = true;
+    await router.push("/dashboard");
+  } catch (error) {
+    console.error("Error during login:", error);
+  }
 };
 </script>

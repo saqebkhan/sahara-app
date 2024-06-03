@@ -1,7 +1,7 @@
 <template>
   <div>
     <TransitionRoot
-      v-if="$route.path !== '/printRent'"
+      v-if="$route.name !== RouteNames.PRINT_RENT"
       as="template"
       :show="sidebarOpen"
     >
@@ -76,7 +76,7 @@
                             :href="item.href"
                             @click="switchCurrent(item)"
                             :class="[
-                              $route.path === item.route
+                              $route.name === item.route
                                 ? 'bg-gray-50 text-indigo-600'
                                 : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                               'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
@@ -85,7 +85,7 @@
                             <component
                               :is="item.icon"
                               :class="[
-                                $route.path === item.route
+                                $route.name === item.route
                                   ? 'text-indigo-600'
                                   : 'text-gray-400 group-hover:text-indigo-600',
                                 'h-6 w-6 shrink-0',
@@ -121,7 +121,7 @@
 
     <!-- Static sidebar for desktop -->
     <div
-      v-if="$route.path !== '/printRent'"
+      v-if="$route.name !== RouteNames.PRINT_RENT"
       class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-52 lg:flex-col"
     >
       <!-- Sidebar component, swap this element with another sidebar if you like -->
@@ -143,7 +143,7 @@
                   <a
                     @click="switchCurrent(item)"
                     :class="[
-                      $route.path === item.route
+                      $route.name === item.route
                         ? 'bg-indigo-50 text-indigo-600'
                         : 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50',
                       'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
@@ -152,7 +152,7 @@
                     <component
                       :is="item.icon"
                       :class="[
-                        $route.path === item.route
+                        $route.name === item.route
                           ? 'text-indigo-600'
                           : 'text-gray-400 group-hover:text-indigo-600',
                         'h-6 w-6 shrink-0',
@@ -183,7 +183,7 @@
 
     <div class="lg:pl-52">
       <div
-        v-if="$route.path !== '/printRent'"
+        v-if="$route.name !== RouteNames.PRINT_RENT"
         class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"
       >
         <button
@@ -199,11 +199,11 @@
         <div
           class="h-6 w-px bg-gray-200 lg:hidden"
           aria-hidden="true"
-          v-if="$route.path !== '/printRent'"
+          v-if="$route.name !== RouteNames.PRINT_RENT"
         />
         <div
           class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6"
-          v-if="$route.path !== '/printRent'"
+          v-if="$route.name !== RouteNames.PRINT_RENT"
         >
           <div class="relative flex flex-1" action="#" method="GET">
             <label for="search-field" class="sr-only">Search</label>
@@ -280,12 +280,6 @@
           </div>
         </div>
       </div>
-
-      <main class="py-8">
-        <div class="px-4 sm:px-6 lg:px-8">
-          <router-view />
-        </div>
-      </main>
     </div>
   </div>
 </template>
@@ -308,32 +302,43 @@ import {
 } from "@headlessui/vue";
 import {
   Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
   Cog6ToothIcon,
   DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
+  TrashIcon,
   UsersIcon,
+  CurrencyRupeeIcon,
   XMarkIcon,
+  Squares2X2Icon,
+  DocumentTextIcon,
 } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import { RouteNames } from "../../../router";
 
 const store = useStore();
 
 const router = useRouter();
 
 const navigation = [
-  { name: "Dashboard", route: "/dashboard", icon: HomeIcon, current: true },
-  { name: "Inmates List", route: "/inmates", icon: UsersIcon, current: false },
-  { name: "Deleted", href: "#", icon: FolderIcon, current: false },
-  { name: "Expense", href: "#", icon: CalendarIcon, current: false },
+  {
+    name: "Dashboard",
+    route: RouteNames.DASHBOARD,
+    icon: Squares2X2Icon,
+    current: true,
+  },
+  {
+    name: "Inmates List",
+    route: RouteNames.INMATES,
+    icon: UsersIcon,
+    current: false,
+  },
+  { name: "Deleted", href: "#", icon: TrashIcon, current: false },
+  { name: "Expense", href: "#", icon: CurrencyRupeeIcon, current: false },
   { name: "Slots", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "History", href: "#", icon: ChartPieIcon, current: false },
+  { name: "History", href: "#", icon: DocumentTextIcon, current: false },
 ];
 
 const switchCurrent = (item) => {
-  router.push(item.route);
+  router.push({ name: item.route });
   sidebarOpen.value = sidebarOpen.value && false;
 };
 
@@ -343,7 +348,7 @@ const resetSelectedHostel = () => {
 
 const logout = () => {
   store.isAuthenticated = false;
-  router.push("/");
+  router.push({ name: RouteNames.HOME });
 };
 
 const sidebarOpen = ref(false);
