@@ -8,7 +8,11 @@
         </h2>
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">
-            <label for="full-name" :class="commonLabelClasses">Full name</label>
+            <label
+              for="full-name"
+              :class="commonLabelClasses"
+              >Full name</label
+            >
             <div class="mt-2">
               <input
                 type="text"
@@ -22,7 +26,9 @@
           </div>
 
           <div class="sm:col-span-3">
-            <label for="father-name" :class="commonLabelClasses"
+            <label
+              for="father-name"
+              :class="commonLabelClasses"
               >Father name</label
             >
             <div class="mt-2">
@@ -38,7 +44,11 @@
           </div>
 
           <div class="sm:col-span-3">
-            <label for="email" :class="commonLabelClasses">Email address</label>
+            <label
+              for="email"
+              :class="commonLabelClasses"
+              >Email address</label
+            >
             <div class="mt-2">
               <input
                 id="email"
@@ -50,7 +60,9 @@
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label for="email" :class="commonLabelClasses"
+            <label
+              for="email"
+              :class="commonLabelClasses"
               >Contact number</label
             >
             <div class="mt-2">
@@ -65,7 +77,9 @@
           </div>
 
           <div class="col-span-full">
-            <label for="street-address" :class="commonLabelClasses"
+            <label
+              for="street-address"
+              :class="commonLabelClasses"
               >Permanent address</label
             >
             <div class="mt-2">
@@ -78,7 +92,9 @@
           </div>
 
           <div class="sm:col-span-2 sm:col-start-1">
-            <label for="city" :class="commonLabelClasses"
+            <label
+              for="city"
+              :class="commonLabelClasses"
               >Parent's contact number</label
             >
             <div class="mt-2">
@@ -91,7 +107,9 @@
           </div>
 
           <div class="sm:col-span-2">
-            <label for="region" :class="commonLabelClasses"
+            <label
+              for="region"
+              :class="commonLabelClasses"
               >Emergency contact number</label
             >
             <div class="mt-2">
@@ -179,11 +197,18 @@
               id=""
               :class="commonSelectClasses"
             >
-              <option v-for="amount in options" :key="amount" :value="amount">
+              <option
+                v-for="amount in options"
+                :key="amount"
+                :value="amount"
+              >
                 {{ amount }}
               </option>
             </select>
-            <div class="sm:col-span-2" v-if="selectedOption === 'other'">
+            <div
+              class="sm:col-span-2"
+              v-if="selectedOption === 'other'"
+            >
               <div class="mt-2">
                 <input
                   type="string"
@@ -215,7 +240,9 @@
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="postal-code" :class="commonLabelClasses"
+            <label
+              for="postal-code"
+              :class="commonLabelClasses"
               >Permanent address pincode</label
             >
             <div class="mt-2">
@@ -227,7 +254,9 @@
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="full-name" :class="commonLabelClasses"
+            <label
+              for="full-name"
+              :class="commonLabelClasses"
               >Bike registration number</label
             >
             <div class="mt-2">
@@ -239,7 +268,9 @@
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="full-name" :class="commonLabelClasses"
+            <label
+              for="full-name"
+              :class="commonLabelClasses"
               >Sharing room</label
             >
             <div class="mt-2">
@@ -251,7 +282,11 @@
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="full-name" :class="commonLabelClasses">Paid days</label>
+            <label
+              for="full-name"
+              :class="commonLabelClasses"
+              >Paid days</label
+            >
             <div class="mt-2">
               <input
                 type="number"
@@ -263,7 +298,9 @@
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="full-name" :class="commonLabelClasses"
+            <label
+              for="full-name"
+              :class="commonLabelClasses"
               >Paid Amount</label
             >
             <div class="mt-2">
@@ -277,7 +314,11 @@
             </div>
           </div>
           <div class="mb-4">
-            <label for="pay-month" :class="commonLabelClasses">Pay month</label>
+            <label
+              for="pay-month"
+              :class="commonLabelClasses"
+              >Pay month</label
+            >
             <select
               v-model="inmate.payHistory[inmate.payHistory.length - 1].payMonth"
               id="pay-month"
@@ -285,11 +326,18 @@
               :class="commonSelectClasses"
             >
               <option value="">Select Month</option>
-              <option v-for="month in months" :key="month">{{ month }}</option>
+              <option
+                v-for="month in months"
+                :key="month"
+              >
+                {{ month }}
+              </option>
             </select>
           </div>
           <div>
-            <label for="pay-month" :class="commonLabelClasses"
+            <label
+              for="pay-month"
+              :class="commonLabelClasses"
               >Payment mode</label
             >
             <select
@@ -306,7 +354,11 @@
             </select>
           </div>
           <div>
-            <label for="pay-month" :class="commonLabelClasses">Paid To</label>
+            <label
+              for="pay-month"
+              :class="commonLabelClasses"
+              >Paid To</label
+            >
             <select
               v-model="inmate.payHistory[inmate.payHistory.length - 1].paidTo"
               id="pay-mode"
@@ -314,7 +366,12 @@
               :class="commonSelectClasses"
             >
               <option value="">Select Paid to</option>
-              <option v-for="name in names" :key="name">{{ name }}</option>
+              <option
+                v-for="name in names"
+                :key="name"
+              >
+                {{ name }}
+              </option>
             </select>
           </div>
         </div>
@@ -346,6 +403,9 @@ import { useStore } from "../../../store";
 import axios from "axios";
 const selectedOption = ref("");
 const choosenAmount = ref("");
+const route = useRoute();
+const store = useStore();
+const id = route.query.id;
 
 const inmate = ref({
   name: "",
@@ -355,7 +415,7 @@ const inmate = ref({
   contactNumber: "",
   parentsContactNumber: "",
   emergencyContactNumber: "",
-  saharaHostelNumber: "",
+  saharaHostelNumber: store.selectedHostel || "",
   placeOfWorkOrStudy: "",
   dateOfJoining: "",
   aadharNumber: "",
@@ -443,11 +503,6 @@ const commonLabelClasses = computed(() => {
   return "block text-sm font-medium leading-6 text-gray-900";
 });
 
-const route = useRoute();
-
-const store = useStore();
-const id = route.query.id;
-
 const submitForm = (e) => {
   e.preventDefault();
   if (id) {
@@ -455,7 +510,7 @@ const submitForm = (e) => {
       store.isLoading = true;
       axios.put(
         `https://sahara-api-f8yp.vercel.app/inmates/${id}`,
-        inmate.value
+        inmate.value,
       );
     } catch (e) {
       console.log(e);
