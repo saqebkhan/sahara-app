@@ -200,18 +200,11 @@
               id=""
               :class="commonClasses.selectClasses"
             >
-              <option
-                v-for="amount in options"
-                :key="amount"
-                :value="amount"
-              >
+              <option v-for="amount in options" :key="amount" :value="amount">
                 {{ amount }}
               </option>
             </select>
-            <div
-              class="sm:col-span-2"
-              v-if="selectedOption === 'other'"
-            >
+            <div class="sm:col-span-2" v-if="selectedOption === 'other'">
               <div class="mt-2">
                 <input
                   type="number"
@@ -391,9 +384,6 @@ import { commonClasses } from "../../Common/commonClass";
 import axios from "axios";
 const selectedOption = ref("");
 const choosenAmount = ref("");
-const route = useRoute();
-const store = useStore();
-const id = route.query.id;
 
 const inmate = ref({
   name: "",
@@ -403,7 +393,7 @@ const inmate = ref({
   contactNumber: "",
   parentsContactNumber: "",
   emergencyContactNumber: "",
-  saharaHostelNumber: store.selectedHostel || "",
+  saharaHostelNumber: "",
   placeOfWorkOrStudy: "",
   dateOfJoining: "",
   aadharNumber: "",
@@ -481,6 +471,11 @@ const options = computed(() => {
   }
 });
 
+const route = useRoute();
+
+const store = useStore();
+const id = route.query.id;
+
 const submitForm = (e) => {
   e.preventDefault();
   if (id) {
@@ -488,7 +483,7 @@ const submitForm = (e) => {
       store.isLoading = true;
       axios.put(
         `https://sahara-api-f8yp.vercel.app/inmates/${id}`,
-        inmate.value,
+        inmate.value
       );
     } catch (e) {
       console.log(e);
