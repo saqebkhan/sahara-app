@@ -17,14 +17,11 @@
       </p>
       <button
         @click="goToHostel(card.hostel)"
-        :class="commonClassFuncs.commonSubmitButtonClasses()"
+        :class="commonClasses.buttonClasses"
         class="flex"
       >
         Open table
-        <component
-          :is="ArrowRightIcon"
-          class="ml-2 w-5 h-5"
-        />
+        <component :is="ArrowRightIcon" class="ml-2 w-5 h-5" />
       </button>
     </div>
   </div>
@@ -35,8 +32,7 @@ import { ArrowRightIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import { useStore } from "../../../store.js";
 import { RouteNames } from "../../../router.js";
-import * as commonClassFuncs from "../../Common/commonClass";
-
+import { commonClasses } from "../../Common/commonClass";
 const store = useStore();
 
 const router = useRouter();

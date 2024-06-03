@@ -4,23 +4,16 @@
     <div>
       <!-- First Row -->
       <div class="mb-4">
-        <label
-          for="pay-month"
-          :class="commonClassFuncs.commonLabelClasses()"
+        <label for="pay-month" :class="commonClasses.labelClasses"
           >Pay month</label
         >
         <select
           v-model="payMonth"
           id="pay-month"
           name="pay-month"
-          :class="commonClassFuncs.commonSelectClasses()"
+          :class="commonClasses.selectClasses"
         >
-          <option
-            disabled
-            value=""
-          >
-            Select Month
-          </option>
+          <option disabled value="">Select Month</option>
           <option
             v-for="month in months"
             :key="month"
@@ -34,17 +27,13 @@
 
       <!-- Second Row -->
       <div>
-        <label
-          for="rent"
-          :class="commonClassFuncs.commonLabelClasses()"
-          >Pay amount</label
-        >
+        <label for="rent" :class="commonClasses.labelClasses">Pay amount</label>
         <div class="mt-2">
           <input
             v-model.trim="payAmount"
             type="number"
             name="rent-amount"
-            :class="commonClassFuncs.commonClasses()"
+            :class="commonClasses.inputClasses"
             class="no-spinner"
           />
         </div>
@@ -55,17 +44,13 @@
     <div>
       <!-- First Row -->
       <div class="mb-4">
-        <label
-          for="rent"
-          :class="commonClassFuncs.commonLabelClasses()"
-          >Paid Days</label
-        >
+        <label for="rent" :class="commonClasses.labelClasses">Paid Days</label>
         <div class="mt-2">
           <input
             v-model.trim="paidDays"
             type="number"
             name="paid-days"
-            :class="commonClassFuncs.commonClasses()"
+            :class="commonClasses.inputClasses"
             class="no-spinner"
           />
         </div>
@@ -73,23 +58,16 @@
 
       <!-- Second Row -->
       <div>
-        <label
-          for="pay-month"
-          :class="commonClassFuncs.commonLabelClasses()"
+        <label for="pay-month" :class="commonClasses.labelClasses"
           >Payment mode</label
         >
         <select
           v-model="paymentMode"
           id="pay-mode"
           name="pay-mode"
-          :class="commonClassFuncs.commonSelectClasses()"
+          :class="commonClasses.selectClasses"
         >
-          <option
-            disabled
-            value=""
-          >
-            Select Payment Mode
-          </option>
+          <option disabled value="">Select Payment Mode</option>
           <option
             v-for="paymentMode in paymentModes"
             :key="paymentMode"
@@ -101,23 +79,16 @@
         </select>
       </div>
       <div>
-        <label
-          for="pay-month"
-          :class="commonClassFuncs.commonLabelClasses()"
+        <label for="pay-month" :class="commonClasses.labelClasses"
           >Paid To</label
         >
         <select
           v-model="paidTo"
           id="pay-mode"
           name="pay-mode"
-          :class="commonClassFuncs.commonSelectClasses()"
+          :class="commonClasses.selectClasses"
         >
-          <option
-            disabled
-            value=""
-          >
-            Select Payee
-          </option>
+          <option disabled value="">Select Payee</option>
           <option
             v-for="payee in payees"
             :key="payee"
@@ -143,7 +114,7 @@
     <button
       :disabled="!isValidForm"
       type="submit"
-      :class="commonClassFuncs.commonSubmitButtonClasses()"
+      :class="commonClasses.buttonClasses"
       class="disabled:bg-gray-400"
       @click="submitForm"
     >
@@ -154,7 +125,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import * as commonClassFuncs from "../../Common/commonClass";
+import { commonClasses } from "../../Common/commonClass";
 const payMonth = ref("");
 const payAmount = ref("");
 const paidDays = ref("");

@@ -43,8 +43,7 @@
           <button
             type="button"
             @click="$router.push({ name: RouteNames.ADD_EDIT_FORM })"
-            :class="commonHeaderClasses"
-            class="block rounded-md bg-indigo-600 px-3 py-2 mt-10 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            :class="commonClasses.buttonClasses"
           >
             Add user
           </button>
@@ -208,6 +207,7 @@ import Dialog from "../../Common/Dialog.vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { commonClasses } from "../../Common/commonClass";
 import {
   PencilSquareIcon,
   TrashIcon,
@@ -289,7 +289,6 @@ const filteredItems = computed(() => {
         item.amountDeposited.toString().includes(searchTerm)
     );
   }
-  console.log(filtered);
 
   // Sorting logic based on sortDirection and paidDays
   if (sortDirection.value === "asc") {
