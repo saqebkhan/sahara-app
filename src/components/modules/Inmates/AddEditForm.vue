@@ -8,9 +8,7 @@
         </h2>
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">
-            <label
-              for="full-name"
-              :class="commonClassesFuncs.commonLabelClasses()"
+            <label for="full-name" :class="commonClasses.labelClasses"
               >Full name</label
             >
             <div class="mt-2">
