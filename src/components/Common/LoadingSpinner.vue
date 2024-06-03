@@ -1,5 +1,9 @@
 <template>
-  <div role="status">
+  <div
+    role="status"
+    class="absolute inset-0 flex items-center justify-center"
+    v-if="store.isLoading"
+  >
     <svg
       aria-hidden="true"
       class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -19,3 +23,8 @@
     <span class="sr-only">Loading...</span>
   </div>
 </template>
+
+<script setup>
+import { useStore } from "../../store";
+const store = useStore();
+</script>

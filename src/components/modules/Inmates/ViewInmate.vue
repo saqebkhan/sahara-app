@@ -1,11 +1,8 @@
 <template>
   <div
-    v-if="store.isLoading"
-    class="m-auto top-0 bottom-0 left-0 right-0 text-2xl"
+    v-if="!store.isLoading"
+    class="overflow-hidden bg-white shadow sm:rounded-lg"
   >
-    Loading...
-  </div>
-  <div v-else class="overflow-hidden bg-white shadow sm:rounded-lg">
     <div class="flex">
       <div class="px-4 py-6 sm:px-6">
         <h3 class="text-base font-semibold leading-7 text-gray-900">

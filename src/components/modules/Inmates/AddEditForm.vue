@@ -1,6 +1,5 @@
 <template>
-  <div v-if="store.isLoading">Loading...</div>
-  <form v-else>
+  <form v-if="!store.isLoading">
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">

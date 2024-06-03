@@ -1,4 +1,5 @@
 <template>
+  <LoadingSpinner class="lg:ml-48" />
   <Sidebar v-if="store.isAuthenticated && !webTemplate" />
   <main :class="[!webTemplate ? 'lg:pl-48 py-8' : '']">
     <div :class="!webTemplate && 'px-4 sm:px-6 lg:px-8'">
@@ -13,6 +14,8 @@ import { useStore } from "../store";
 import Sidebar from "./modules/Inmates/Sidebar.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import LoadingSpinner from "./Common/LoadingSpinner.vue";
+
 const store = useStore();
 const route = useRoute();
 

@@ -1,8 +1,5 @@
 <template>
-  <div v-if="store.isLoading">
-    <LoadingSpinner />
-  </div>
-  <div v-else>
+  <div v-if="!store.isLoading">
     <Dialog
       v-if="openDeleteDialog"
       actionButton="Delete"
@@ -219,7 +216,6 @@ import {
 } from "@heroicons/vue/24/outline";
 import { useStore } from "../../../store";
 import { RouteNames } from "../../../router";
-import LoadingSpinner from "../../Common/LoadingSpinner.vue";
 
 const selectedHostelItems = ref([]);
 const inmates = ref([]);
