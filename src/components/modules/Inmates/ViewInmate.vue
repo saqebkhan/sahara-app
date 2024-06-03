@@ -169,6 +169,7 @@ import { onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../../store";
 import axios from "axios";
+import { RouteNames } from "../../../router";
 
 const store = useStore();
 const route = useRoute();
@@ -226,7 +227,7 @@ onBeforeMount(() => {
 
 const printDeposit = () => {
   router.push({
-    path: "/printRent",
+    name: RouteNames.PRINT_RENT,
     query: { param: "print", id: idValue },
   });
 };

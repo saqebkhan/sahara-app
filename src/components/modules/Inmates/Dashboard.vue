@@ -17,20 +17,22 @@
       </p>
       <button
         @click="goToHostel(card.hostel)"
-        class="flex rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        :class="commonClasses.buttonClasses"
+        class="flex"
       >
         Open table
-        <ArrowRight class="ml-2" />
+        <component :is="ArrowRightIcon" class="ml-2 w-5 h-5" />
       </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import ArrowRight from "../../../assets/ArrowRight.vue";
+import { ArrowRightIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import { useStore } from "../../../store.js";
-
+import { RouteNames } from "../../../router.js";
+import { commonClasses } from "../../Common/commonClass";
 const store = useStore();
 
 const router = useRouter();
@@ -76,6 +78,6 @@ const cards = [
 
 const goToHostel = (hostel) => {
   store.selectedHostel = hostel;
-  router.push("/inmates");
+  router.push({ name: RouteNames.INMATES });
 };
 </script>
