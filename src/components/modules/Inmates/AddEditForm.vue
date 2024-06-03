@@ -382,6 +382,11 @@ import { useRoute } from "vue-router";
 import { useStore } from "../../../store";
 import { commonClasses } from "../../Common/commonClass";
 import axios from "axios";
+
+const route = useRoute();
+
+const store = useStore();
+
 const selectedOption = ref("");
 const choosenAmount = ref("");
 
@@ -393,7 +398,7 @@ const inmate = ref({
   contactNumber: "",
   parentsContactNumber: "",
   emergencyContactNumber: "",
-  saharaHostelNumber: "",
+  saharaHostelNumber: store.selectedHostel || "",
   placeOfWorkOrStudy: "",
   dateOfJoining: "",
   aadharNumber: "",
@@ -442,6 +447,22 @@ const saharaOptions = [
   { label: "Sahara Hall", value: "Sahara 6" },
 ];
 
+onBeforeMount(async () => {
+  if (id)
+    try {
+      store.isLoading = true;
+      await axios
+        .get("https://sahara-api-f8yp.vercel.app/allInmates")
+        .then((res) => {
+          inmate.value = res.data.find((i) => i._id === id);
+        });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      store.isLoading = false;
+    }
+});
+
 watch(selectedOption, (val) => {
   if (val !== "other") {
     inmate.value.monthlyRentPayment = val.toString();
@@ -471,9 +492,6 @@ const options = computed(() => {
   }
 });
 
-const route = useRoute();
-
-const store = useStore();
 const id = route.query.id;
 
 const submitForm = (e) => {
@@ -505,20 +523,4 @@ const submitForm = (e) => {
 const openCalendar = (event) => {
   event.target.showPicker();
 };
-
-onBeforeMount(async () => {
-  if (id)
-    try {
-      store.isLoading = true;
-      await axios
-        .get("https://sahara-api-f8yp.vercel.app/allInmates")
-        .then((res) => {
-          inmate.value = res.data.find((i) => i._id === id);
-        });
-    } catch (e) {
-      console.log(e);
-    } finally {
-      store.isLoading = false;
-    }
-});
 </script>
