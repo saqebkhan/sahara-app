@@ -6,6 +6,7 @@ import ViewInmate from "./components/modules/Inmates/ViewInmate.vue";
 import PrintRent from "./components/modules/Inmates/PrintRent.vue";
 import AddEditForm from "./components/modules/Inmates/AddEditForm.vue";
 import AddRent from "./components/modules/Inmates/AddRent.vue";
+
 const routes = [
   { path: "/dashboard", component: Dashboard },
   { path: "/inmates", component: InmatesList },

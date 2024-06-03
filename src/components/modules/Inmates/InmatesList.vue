@@ -1,19 +1,29 @@
 <template>
-  <div v-if="inmates && inmates.length">
-    <RefundDialog
-      v-if="refundDialog"
+  <div v-if="store.isLoading"><loading-spinner/></div>
+  <div v-else>
+    <Dialog
+      v-if="openDeleteDialog"
+      actionButton="Delete"
+      closeButton="Cancel"
+      description="Are you sure you want to delete this member?"
+      title="Delete Inmate"
       @closeDialog="close"
-      :item="refundingItem"
+      @action="deleteInmate"
     />
-    <DeleteDialog
-      v-if="deleteDialog"
+    <Dialog
+      v-if="openRefundDialog"
+      actionButton="Refund"
+      closeButton="Cancel"
+      description="Are you sure you want to Refund this member?"
+      title="Refund Inmate"
+      :amount="refundingItem.amountDeposited"
       @closeDialog="close"
-      :item="deletingItem"
+      @action="refundInmate"
     />
     <div class="px-4 sm:px-6 lg:px-8">
-      <div class="sm:flex sm:items-center">
+      <div class="sm:flex sm:items-center sticky top-20">
         <div class="sm:flex-auto">
-          <h1 class="text-base font-semibold leading-6 pb-3">
+          <h1 class="text-base font-semibold leading-6">
             Search by - Name, Number, Rent.
           </h1>
           <form class="relative flex flex-1 mt-2">
@@ -23,18 +33,18 @@
               aria-hidden="true"
             />
             <input
-              class="block h-full w-full py-2 pl-8 pr-0 placeholder:text-gray-400 focus:ring-0 focus:border-gray-400 sm:text-sm border rounded-md border-gray-200"
+              class="block h-full w-full py-2 pl-8 pr-0 placeholder:text-gray-400 focus:ring-0 focus:border-indigo-400 sm:text-sm border rounded-md border-gray-200"
               placeholder="Search..."
               v-model="search"
             />
           </form>
         </div>
-        <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <div class="mt-3 sm:ml-16 sm:mt-0 sm:flex-none">
           <button
             type="button"
             @click="$router.push('/addEditForm')"
             :class="commonHeaderClasses"
-            class="block rounded-md bg-indigo-600 px-3 py-2 mt-11 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            class="block rounded-md bg-indigo-600 px-3 py-2 mt-10 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add user
           </button>
@@ -43,145 +53,155 @@
       <div class="mt-8 flow-root">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-1 align-middle">
-            <table class="min-w-full divide-y divide-gray-300">
-              <thead>
-                <tr class="bg-gray-800 pr-4 divide-x">
-                  <th scope="col" :class="commonHeaderClasses">
-                    <a href="#" :class="[commonAnchorClasses, 'text-nowrap']"
-                      >SR. NO.</a
-                    >
-                  </th>
-
-                  <th scope="col" :class="commonHeaderClasses">
-                    <a href="#" :class="commonAnchorClasses">NAME</a>
-                  </th>
-                  <th scope="col" ::class="commonHeaderClasses">
-                    <a href="#" :class="commonAnchorClasses">NUMBER</a>
-                  </th>
-                  <th scope="col" :class="commonHeaderClasses">
-                    <a href="#" :class="commonAnchorClasses">DEPOSIT</a>
-                  </th>
-                  <th scope="col" :class="commonHeaderClasses">
-                    <a href="#" :class="[commonAnchorClasses, 'text-nowrap']"
-                      >ROOM NO.</a
-                    >
-                  </th>
-                  <th scope="col" :class="commonHeaderClasses">
-                    <a href="#" :class="commonAnchorClasses">DATE OF JOINING</a>
-                  </th>
-                  <th scope="col" :class="commonHeaderClasses">
-                    <a href="#" :class="commonAnchorClasses">RENT</a>
-                  </th>
-                  <th
-                    scope="col"
-                    :class="commonHeaderClasses"
-                    @click="toggleSort"
-                  >
-                    <a href="#" :class="[commonAnchorClasses, 'text-nowrap']"
-                      >DAYS LEFT</a
-                    >
-                  </th>
-                  <th scope="col" :class="commonHeaderClasses">
-                    <a href="#" :class="commonAnchorClasses">ACTIONS</a>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
-                <tr
-                  v-for="(person, index) in filteredItems"
-                  :key="person.email"
-                  class="hover:bg-gray-100 divide-x"
+            <div class="overflow-hidden">
+              <div class="overflow-y-auto max-h-[70vh]">
+                <table
+                  class="min-w-full divide-y divide-gray-300 overflow-y-auto"
                 >
-                  <td
-                    class="whitespace-nowrap bg-gray-200 py-5 text-sm font-medium sm:pl-0 flex"
-                  >
-                    <span class="ml-8">{{ index + 1 }}</span>
-                  </td>
-                  <td
-                    :class="[
-                      commonTableDataClasses,
-                      'uppercase font-medium text-gray-900',
-                    ]"
-                  >
-                    <div class="flex">
-                      <img
+                  <thead class="sticky top-0">
+                    <tr class="bg-indigo-600 pr-4 divide-x">
+                      <!-- Header columns -->
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a
+                          href="#"
+                          :class="[commonAnchorClasses, 'text-nowrap']"
+                          >SR. NO.</a
+                        >
+                      </th>
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a href="#" :class="commonAnchorClasses">NAME</a>
+                      </th>
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a href="#" :class="commonAnchorClasses">NUMBER</a>
+                      </th>
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a href="#" :class="commonAnchorClasses">DEPOSIT</a>
+                      </th>
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a
+                          href="#"
+                          :class="[commonAnchorClasses, 'text-nowrap']"
+                          >ROOM NO.</a
+                        >
+                      </th>
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a href="#" :class="commonAnchorClasses"
+                          >DATE OF JOINING</a
+                        >
+                      </th>
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a href="#" :class="commonAnchorClasses">RENT</a>
+                      </th>
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a
+                          href="#"
+                          :class="[commonAnchorClasses, 'text-nowrap']"
+                          >DAYS LEFT</a
+                        >
+                      </th>
+                      <th scope="col" :class="commonHeaderClasses">
+                        <a href="#" :class="commonAnchorClasses">ACTIONS</a>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 bg-white">
+                    <!-- Table rows -->
+                    <tr
+                      v-for="(person, index) in filteredItems"
+                      :key="person.email"
+                      class="hover:bg-indigo-50 divide-x"
+                    >
+                      <td
+                        class="whitespace-nowrap bg-indigo-50 py-5 text-sm font-medium sm:pl-0 flex"
+                      >
+                        <span class="ml-8">{{ index + 1 }}</span>
+                      </td>
+                      <td
                         @click="viewInmate(person)"
-                        :src="eyeIcon"
-                        alt=""
-                        class="w-4 h-4 mr-2 mt-0.5 ml-2 cursor-pointer"
-                      />
-                      <span>{{ person.name }}</span>
-                    </div>
-                  </td>
-                  <td :class="commonTableDataClasses">
-                    {{ person.contactNumber }}
-                  </td>
-                  <td
-                    :class="[commonTableDataClasses, 'flex cursor-pointer']"
-                    @click="refund(person)"
-                  >
-                    {{ person.amountDeposited }}
-                    <img
-                      class="ml-1 h-3.5 w-3.5 mt-0.5"
-                      :src="refundIcon"
-                      alt=""
-                    />
-                  </td>
-                  <td :class="commonTableDataClasses">
-                    {{ person.roomNumber }}
-                  </td>
-                  <td :class="commonTableDataClasses">
-                    {{ person.dateOfJoining }}
-                  </td>
-                  <td
-                    :class="[commonTableDataClasses, 'flex cursor-pointer']"
-                    @click="addRent(person)"
-                  >
-                    <span>{{ person.monthlySubscriptionAmount }}</span>
-                    <img class="w-4 h-4 ml-1 mt-1" :src="cashIcon" alt="" />
-                  </td>
-                  <td
-                    class="whitespace-nowrap px-3 py-4 text-sm"
-                    :class="
-                      person.payHistory[person.payHistory.length - 1].paidDays <
-                      4
-                        ? 'bg-red-400 text-white'
-                        : ''
-                    "
-                  >
-                    {{
-                      person.payHistory[person.payHistory.length - 1].paidDays
-                    }}
-                  </td>
-                  <td :class="[commonTableDataClasses, 'flex relative']">
-                    <img
-                      @click="editItem(person)"
-                      class="w-4 h-4 cursor-pointer"
-                      :src="editIcon"
-                      alt=""
-                    />
-                    <img
-                      @click="deleteItem(person)"
-                      class="w-4 h-4 ml-3 cursor-pointer"
-                      :src="deleteIcon"
-                      alt=""
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                        :class="[
+                          commonTableDataClasses,
+                          'uppercase font-medium text-gray-900 cursor-pointer',
+                        ]"
+                      >
+                        <div class="flex">
+                          <img
+                            :src="eyeIcon"
+                            alt=""
+                            class="w-4 h-4 mr-2 mt-0.5 ml-2 cursor-pointer"
+                          />
+                          <span>{{ person.name }}</span>
+                        </div>
+                      </td>
+                      <td :class="commonTableDataClasses">
+                        {{ person.contactNumber }}
+                      </td>
+                      <td
+                        :class="[commonTableDataClasses, 'flex cursor-pointer']"
+                        @click="refund(person)"
+                      >
+                        {{ person.amountDeposited }}
+                        <img
+                          class="ml-1 h-3.5 w-3.5 mt-0.5"
+                          :src="refundIcon"
+                          alt=""
+                        />
+                      </td>
+                      <td :class="commonTableDataClasses">
+                        {{ person.roomNumber }}
+                      </td>
+                      <td :class="commonTableDataClasses">
+                        {{ person.dateOfJoining }}
+                      </td>
+                      <td
+                        :class="[commonTableDataClasses, 'flex cursor-pointer']"
+                        @click="addRent(person)"
+                      >
+                        <span>{{ person.monthlySubscriptionAmount }}</span>
+                        <img class="w-4 h-4 ml-1 mt-1" :src="cashIcon" alt="" />
+                      </td>
+                      <td
+                        class="whitespace-nowrap px-3 py-4 text-sm"
+                        :class="
+                          person.payHistory[person.payHistory.length - 1]
+                            .paidDays < 4
+                            ? 'bg-red-600 text-white'
+                            : ''
+                        "
+                      >
+                        {{
+                          person.payHistory[person.payHistory.length - 1]
+                            .paidDays
+                        }}
+                      </td>
+                      <td :class="[commonTableDataClasses, 'flex']">
+                        <img
+                          @click="editItem(person)"
+                          class="w-4 h-4 cursor-pointer"
+                          :src="editIcon"
+                          alt=""
+                        />
+                        <img
+                          @click="deleteItem(person)"
+                          class="w-4 h-4 ml-3 cursor-pointer"
+                          :src="deleteIcon"
+                          alt=""
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div v-else>loading...</div>
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch } from "vue";
-import RefundDialog from "./RefundDialog.vue";
-import DeleteDialog from "./DeleteDialog.vue";
+import { computed, ref, onBeforeMount, watch } from "vue";
+import Dialog from "../../Common/Dialog.vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { useRouter } from "vue-router";
 import axios from "axios";
@@ -191,6 +211,7 @@ import deleteIcon from "../../../assets/delete.svg";
 import cashIcon from "../../../assets/pay.svg";
 import eyeIcon from "../../../assets/eye.svg";
 import refundIcon from "../../../assets/refund.svg";
+import LoadingSpinner from "./LoadingSpinner.vue";
 
 const selectedHostelItems = ref([]);
 const inmates = ref([]);
@@ -199,14 +220,17 @@ const router = useRouter();
 
 const store = useStore();
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
+    store.isLoading = true;
     const response = await axios.get(
       "https://sahara-api-f8yp.vercel.app/allInmates"
     );
     inmates.value = response.data;
   } catch (error) {
     console.error("Error fetching inmates:", error);
+  } finally {
+    store.isLoading = false;
   }
   selectedHostelInmates();
 });
@@ -242,9 +266,9 @@ const selectedHostelInmates = () => {
   });
 };
 
-const refundDialog = ref(false);
+const openDeleteDialog = ref(false);
+const openRefundDialog = ref(false);
 const refundingItem = ref(null);
-const deleteDialog = ref(false);
 const deletingItem = ref(null);
 const search = ref("");
 const sortDirection = ref("asc"); // Track sorting direction
@@ -273,20 +297,31 @@ const toggleSort = () => {
   sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
 };
 
+const deleteItem = (item) => {
+  openDeleteDialog.value = true;
+  deletingItem.value = item;
+};
+
+const deleteInmate = () => {
+  openDeleteDialog.value = false;
+  deletingItem.value = null;
+};
+
 const refund = (item) => {
-  refundDialog.value = true;
+  openRefundDialog.value = true;
   refundingItem.value = item;
 };
 
-const deleteItem = (item) => {
-  deleteDialog.value = true;
-  deletingItem.value = item;
+const refundInmate = (amount) => {
+  console.log(refundingItem, amount, "amount");
+  openRefundDialog.value = false;
+  refundingItem.value = null;
 };
 
 const close = (val) => {
   if (!val) {
-    refundDialog.value = false;
-    deleteDialog.value = false;
+    openDeleteDialog.value = false;
+    openRefundDialog.value = false;
   }
   refundingItem.value = null;
   deletingItem.value = null;

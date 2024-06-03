@@ -1,8 +1,11 @@
 <template>
-  <div v-if="!inmate" class="m-auto top-0 bottom-0 left-0 right-0 text-2xl">
+  <div
+    v-if="store.isLoading"
+    class="m-auto top-0 bottom-0 left-0 right-0 text-2xl"
+  >
     Loading...
   </div>
-  <div v-if="inmate" class="overflow-hidden bg-white shadow sm:rounded-lg">
+  <div v-else class="overflow-hidden bg-white shadow sm:rounded-lg">
     <div class="flex">
       <div class="px-4 py-6 sm:px-6">
         <h3 class="text-base font-semibold leading-7 text-gray-900">
@@ -21,53 +24,53 @@
     </div>
     <div class="border-t border-gray-200">
       <dl class="divide-y divide-gray-200">
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <template v-for="(section, index) in sections" :key="section.label">
             <div v-if="index % 4 === 0" class="px-4 py-4">
               <dt class="text-sm font-medium text-gray-900">
-                {{ sections[index].label }}
+                {{ section.label }}
               </dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700">
-                {{ sections[index].value }}
+                {{ section.value }}
               </dd>
             </div>
           </template>
         </div>
 
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <template v-for="(section, index) in sections" :key="section.label">
             <div v-if="index % 4 === 1" class="px-4 py-4">
               <dt class="text-sm font-medium text-gray-900">
-                {{ sections[index].label }}
+                {{ section.label }}
               </dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700">
-                {{ sections[index].value }}
+                {{ section.value }}
               </dd>
             </div>
           </template>
         </div>
 
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <template v-for="(section, index) in sections" :key="section.label">
             <div v-if="index % 4 === 2" class="px-4 py-4">
               <dt class="text-sm font-medium text-gray-900">
-                {{ sections[index].label }}
+                {{ section.label }}
               </dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700">
-                {{ sections[index].value }}
+                {{ section.value }}
               </dd>
             </div>
           </template>
         </div>
 
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <template v-for="(section, index) in sections" :key="section.label">
             <div v-if="index % 4 === 3" class="px-4 py-4">
               <dt class="text-sm font-medium text-gray-900">
-                {{ sections[index].label }}
+                {{ section.label }}
               </dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700">
-                {{ sections[index].value }}
+                {{ section.value }}
               </dd>
             </div>
           </template>
@@ -127,7 +130,7 @@
                 </div>
                 <div class="ml-4 flex-shrink-0">
                   <a
-                    @click="$router.push('/printRent')"
+                    @click="printDeposit"
                     class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                     >Print</a
                   >
@@ -147,7 +150,7 @@
                 </div>
                 <div class="ml-4 flex-shrink-0">
                   <a
-                    @click="$router.push('/printRent')"
+                    @click="printDeposit"
                     class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                     >Print</a
                   >
@@ -162,36 +165,23 @@
 </template>
 <script setup>
 import { PaperClipIcon } from "@heroicons/vue/20/solid";
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { onBeforeMount, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "../../../store";
+import axios from "axios";
 
-// Inside your component setup block
+const store = useStore();
 const route = useRoute();
+const router = useRouter();
 
-// Access the query parameters using route.query
-const paramValue = route.query.param;
 const idValue = route.query.id;
 
-const inmate = ref(null);
-const sections = ref([]);
-
-onMounted(() => {
-  // const id = route.query.id;
-  // Define the API endpoint
-  const endpoint = "https://sahara-api-f8yp.vercel.app/allInmates"; // Change 'your-endpoint' to the actual endpoint you want to call
-
-  // Fetch data from the API
-  fetch(endpoint)
+onBeforeMount(() => {
+  store.isLoading = true;
+  axios
+    .get("https://sahara-api-f8yp.vercel.app/allInmates")
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json(); // Parse the JSON response
-    })
-    .then((data) => {
-      inmate.value = data.find((item) => item._id === idValue);
-
-      // Populate the sections array
+      inmate.value = response.data.find((item) => item._id === idValue);
       sections.value = [
         { label: "Full name", value: inmate.value.name },
         { label: "Father Name", value: inmate.value.fatherName },
@@ -227,7 +217,20 @@ onMounted(() => {
       ];
     })
     .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
+      console.error(error);
+    })
+    .finally(() => {
+      store.isLoading = false;
     });
 });
+
+const printDeposit = () => {
+  router.push({
+    path: "/printRent",
+    query: { param: "print", id: idValue },
+  });
+};
+
+const inmate = ref(null);
+const sections = ref([]);
 </script>
