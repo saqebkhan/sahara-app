@@ -8,7 +8,11 @@
         </h2>
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">
-            <label for="full-name" :class="commonLabelClasses">Full name</label>
+            <label
+              for="full-name"
+              :class="commonClassFuncs.commonLabelClasses()"
+              >Full name</label
+            >
             <div class="mt-2">
               <input
                 type="text"
@@ -16,13 +20,15 @@
                 name="first-name"
                 id="first-name"
                 autocomplete="given-name"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
               />
             </div>
           </div>
 
           <div class="sm:col-span-3">
-            <label for="father-name" :class="commonLabelClasses"
+            <label
+              for="father-name"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Father name</label
             >
             <div class="mt-2">
@@ -32,84 +38,101 @@
                 name="last-name"
                 id="last-name"
                 autocomplete="family-name"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
               />
             </div>
           </div>
 
           <div class="sm:col-span-3">
-            <label for="email" :class="commonLabelClasses">Email address</label>
+            <label
+              for="email"
+              :class="commonClassFuncs.commonLabelClasses()"
+              >Email address</label
+            >
             <div class="mt-2">
               <input
                 id="email"
                 name="email"
                 v-model="inmate.email"
                 type="email"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
               />
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label for="email" :class="commonLabelClasses"
+            <label
+              for="email"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Contact number</label
             >
             <div class="mt-2">
               <input
                 id="number"
-                name="string"
+                name="number"
                 v-model="inmate.contactNumber"
-                type="string"
-                :class="commonClasses"
+                type="number"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
 
           <div class="col-span-full">
-            <label for="street-address" :class="commonLabelClasses"
+            <label
+              for="street-address"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Permanent address</label
             >
             <div class="mt-2">
               <input
                 type="text"
                 v-model="inmate.permanentAddress"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
               />
             </div>
           </div>
 
           <div class="sm:col-span-2 sm:col-start-1">
-            <label for="city" :class="commonLabelClasses"
+            <label
+              for="city"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Parent's contact number</label
             >
             <div class="mt-2">
               <input
-                type="string"
+                type="number"
                 v-model="inmate.parentsContactNumber"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
 
           <div class="sm:col-span-2">
-            <label for="region" :class="commonLabelClasses"
+            <label
+              for="region"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Emergency contact number</label
             >
             <div class="mt-2">
               <input
-                type="string"
+                type="number"
                 v-model="inmate.emergencyContactNumber"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label :class="commonLabelClasses">Sahara hostel branch</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Sahara hostel branch</label
+            >
             <div class="mt-2">
               <select
                 name=""
                 id=""
                 v-model="inmate.saharaHostelNumber"
-                :class="commonSelectClasses"
+                :class="commonClassFuncs.commonSelectClasses()"
               >
                 <option
                   v-for="sahara in saharaOptions"
@@ -122,148 +145,194 @@
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label :class="commonLabelClasses">Place of work/study</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Place of work/study</label
+            >
             <div class="mt-2">
               <input
                 type="text"
                 v-model="inmate.placeOfWorkOrStudy"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
               />
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label :class="commonLabelClasses">Date of joining</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Date of joining</label
+            >
             <div class="mt-2">
               <input
                 type="date"
                 v-model="inmate.dateOfJoining"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                @click="openCalendar"
+                class="cursor-pointer"
               />
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label :class="commonLabelClasses">Aadhar number</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Aadhar number</label
+            >
             <div class="mt-2">
               <input
-                type="string"
+                type="number"
                 v-model="inmate.aadharNumber"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label :class="commonLabelClasses">Expected date of vacating</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Expected date of vacating</label
+            >
             <div class="mt-2">
               <input
                 v-model="inmate.expectedDateOfLeaving"
                 type="date"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                @click="openCalendar"
+                class="cursor-pointer"
               />
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label :class="commonLabelClasses">Amount deposited</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Amount deposited</label
+            >
             <div class="mt-2">
               <input
-                type="string"
+                type="number"
                 v-model="inmate.amountDeposited"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label :class="commonLabelClasses">Monthly rent payment</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Monthly rent payment</label
+            >
             <select
               v-model="selectedOption"
               name="selectRent"
               id=""
-              :class="commonSelectClasses"
+              :class="commonClassFuncs.commonSelectClasses()"
             >
-              <option v-for="amount in options" :key="amount" :value="amount">
+              <option
+                v-for="amount in options"
+                :key="amount"
+                :value="amount"
+              >
                 {{ amount }}
               </option>
             </select>
-            <div class="sm:col-span-2" v-if="selectedOption === 'other'">
+            <div
+              class="sm:col-span-2"
+              v-if="selectedOption === 'other'"
+            >
               <div class="mt-2">
                 <input
-                  type="string"
+                  type="number"
                   placeholder="Enter rent amount"
                   v-model="choosenAmount"
-                  :class="commonClasses"
+                  :class="commonClassFuncs.commonClasses()"
+                  class="no-spinner"
                 />
               </div>
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label :class="commonLabelClasses">Room number</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Room number</label
+            >
             <div class="mt-2">
               <input
-                type="string"
+                type="number"
                 v-model="inmate.roomNumber"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label :class="commonLabelClasses">Bed number</label>
+            <label :class="commonClassFuncs.commonLabelClasses()"
+              >Bed number</label
+            >
             <div class="mt-2">
               <input
-                type="string"
+                type="number"
                 v-model="inmate.bedNumber"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="postal-code" :class="commonLabelClasses"
+            <label
+              for="postal-code"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Permanent address pincode</label
             >
             <div class="mt-2">
               <input
-                type="string"
+                type="number"
                 v-model="inmate.permanentAddressPincode"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="full-name" :class="commonLabelClasses"
+            <label
+              for="full-name"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Bike registration number</label
             >
             <div class="mt-2">
               <input
                 type="text"
                 v-model="inmate.bikeRegistrationNumber"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
               />
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="full-name" :class="commonLabelClasses"
+            <label
+              for="full-name"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Sharing room</label
             >
             <div class="mt-2">
               <input
                 type="text"
                 v-model="inmate.sharingRoom"
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
               />
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="full-name" :class="commonLabelClasses">Paid days</label>
+            <label
+              for="full-name"
+              :class="commonClassFuncs.commonLabelClasses()"
+              >Paid days</label
+            >
             <div class="mt-2">
               <input
                 type="number"
                 v-model="
                   inmate.payHistory[inmate.payHistory.length - 1].paidDays
                 "
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="full-name" :class="commonLabelClasses"
+            <label
+              for="full-name"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Paid Amount</label
             >
             <div class="mt-2">
@@ -272,24 +341,36 @@
                 v-model="
                   inmate.payHistory[inmate.payHistory.length - 1].payAmount
                 "
-                :class="commonClasses"
+                :class="commonClassFuncs.commonClasses()"
+                class="no-spinner"
               />
             </div>
           </div>
           <div class="mb-4">
-            <label for="pay-month" :class="commonLabelClasses">Pay month</label>
+            <label
+              for="pay-month"
+              :class="commonClassFuncs.commonLabelClasses()"
+              >Pay month</label
+            >
             <select
               v-model="inmate.payHistory[inmate.payHistory.length - 1].payMonth"
               id="pay-month"
               name="pay-month"
-              :class="commonSelectClasses"
+              :class="commonClassFuncs.commonSelectClasses()"
             >
               <option value="">Select Month</option>
-              <option v-for="month in months" :key="month">{{ month }}</option>
+              <option
+                v-for="month in months"
+                :key="month"
+              >
+                {{ month }}
+              </option>
             </select>
           </div>
           <div>
-            <label for="pay-month" :class="commonLabelClasses"
+            <label
+              for="pay-month"
+              :class="commonClassFuncs.commonLabelClasses()"
               >Payment mode</label
             >
             <select
@@ -298,7 +379,7 @@
               "
               id="pay-mode"
               name="pay-mode"
-              :class="commonSelectClasses"
+              :class="commonClassFuncs.commonSelectClasses()"
             >
               <option value="">Select Payment Mode</option>
               <option value="Cash">Cash</option>
@@ -306,15 +387,24 @@
             </select>
           </div>
           <div>
-            <label for="pay-month" :class="commonLabelClasses">Paid To</label>
+            <label
+              for="pay-month"
+              :class="commonClassFuncs.commonLabelClasses()"
+              >Paid To</label
+            >
             <select
               v-model="inmate.payHistory[inmate.payHistory.length - 1].paidTo"
               id="pay-mode"
               name="pay-mode"
-              :class="commonSelectClasses"
+              :class="commonClassFuncs.commonSelectClasses()"
             >
               <option value="">Select Paid to</option>
-              <option v-for="name in names" :key="name">{{ name }}</option>
+              <option
+                v-for="name in names"
+                :key="name"
+              >
+                {{ name }}
+              </option>
             </select>
           </div>
         </div>
@@ -330,7 +420,7 @@
       </button>
       <button
         type="submit"
-        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        :class="commonClassFuncs.commonSubmitButtonClasses()"
         @click="submitForm"
       >
         Save
@@ -343,6 +433,7 @@
 import { ref, computed, watch, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "../../../store";
+import * as commonClassFuncs from "../../Common/commonClass";
 import axios from "axios";
 const selectedOption = ref("");
 const choosenAmount = ref("");
@@ -415,32 +506,22 @@ watch(choosenAmount, (val) => {
 });
 
 const options = computed(() => {
-  if (inmate.value.saharaHostelNumber === "Sahara 1") {
-    return [6500, 7500, 8000, 9500, "other"];
-  } else if (inmate.value.saharaHostelNumber === "Sahara 2") {
-    return [6000, 4500, "other"];
-  } else if (inmate.value.saharaHostelNumber === "Sahara 3") {
-    return [10000, 11000, 12500, 13500, "other"];
-  } else if (inmate.value.saharaHostelNumber === "Sahara 4") {
-    return [6000, 4500, "other"];
-  } else if (inmate.value.saharaHostelNumber === "Sahara 5") {
-    return [7500, 8500, "other"];
-  } else if (inmate.value.saharaHostelNumber === "Sahara 6") {
-    return [5500, "other"];
+  switch (inmate.value.saharaHostelNumber) {
+    case "Sahara 1":
+      return [6500, 7500, 8000, 9500, "other"];
+    case "Sahara 2":
+      return [6000, 4500, "other"];
+    case "Sahara 3":
+      return [10000, 11000, 12500, 13500, "other"];
+    case "Sahara 4":
+      return [6000, 4500, "other"];
+    case "Sahara 5":
+      return [7500, 8500, "other"];
+    case "Sahara 6":
+      return [5500, "other"];
+    default:
+      return null;
   }
-  return null;
-});
-
-const commonClasses = computed(() => {
-  return "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
-});
-
-const commonSelectClasses = computed(() => {
-  return "mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6";
-});
-
-const commonLabelClasses = computed(() => {
-  return "block text-sm font-medium leading-6 text-gray-900";
 });
 
 const route = useRoute();
@@ -455,7 +536,7 @@ const submitForm = (e) => {
       store.isLoading = true;
       axios.put(
         `https://sahara-api-f8yp.vercel.app/inmates/${id}`,
-        inmate.value
+        inmate.value,
       );
     } catch (e) {
       console.log(e);
@@ -472,6 +553,10 @@ const submitForm = (e) => {
       store.isLoading = false;
     }
   }
+};
+
+const openCalendar = (event) => {
+  event.target.showPicker();
 };
 
 onBeforeMount(async () => {
