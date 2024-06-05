@@ -1,13 +1,6 @@
 <template>
-  <div
-    v-if="!store.isLoading && payslipData"
-    class="payslip"
-  >
-    <img
-      class="watermark"
-      :src="saharaLogo"
-      alt="Your Company"
-    />
+  <div v-if="!store.isLoading" class="payslip">
+    <img class="watermark" :src="saharaLogo" alt="Your Company" />
     <h1 class="title">SAHAR BOYS HOSTEL</h1>
     <div class="address">
       <p>
@@ -90,8 +83,9 @@ const store = useStore();
 
 const route = useRoute();
 const payslipData = ref(null);
+const idValue = route.query.id;
+
 onBeforeMount(async () => {
-  const idValue = route.query.id;
   try {
     store.isLoading = true;
     await axios
