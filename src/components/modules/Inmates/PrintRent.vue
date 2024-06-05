@@ -1,6 +1,5 @@
 <template>
-  <div v-if="store.isLoading">Loading...</div>
-  <div v-else-if="!store.isLoading && payslipData" class="payslip">
+  <div v-if="!store.isLoading" class="payslip">
     <img class="watermark" :src="saharaLogo" alt="Your Company" />
     <h1 class="title">SAHAR BOYS HOSTEL</h1>
     <div class="address">
@@ -84,17 +83,16 @@ const store = useStore();
 
 const route = useRoute();
 const payslipData = ref(null);
+const idValue = route.query.id;
 
-onBeforeMount(() => {
-  const idValue = route.query.id;
+onBeforeMount(async () => {
   try {
     store.isLoading = true;
-    axios
+    await axios
       .get("https://sahara-api-f8yp.vercel.app/allInmates")
       .then((response) => {
         payslipData.value = response.data.find((item) => item._id === idValue);
       });
-    console.log(payslipData.value);
   } catch (e) {
     console.log(e);
   } finally {
