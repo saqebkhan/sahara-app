@@ -1,6 +1,5 @@
 <template>
-  <div v-if="store.isLoading">loading...</div>
-  <div v-else>
+  <div v-if="!store.isLoading">
     <Dialog
       v-if="openDeleteDialog"
       actionButton="Delete"
