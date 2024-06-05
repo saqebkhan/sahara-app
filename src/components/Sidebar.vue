@@ -32,7 +32,7 @@
             leave-from="translate-x-0"
             leave-to="-translate-x-full"
           >
-            <DialogPanel class="relative mr-16 flex w-full max-w-xs flex-1">
+            <DialogPanel class="relative mr-16 flex w-full max-w-52 flex-1">
               <TransitionChild
                 as="template"
                 enter="ease-in-out duration-300"

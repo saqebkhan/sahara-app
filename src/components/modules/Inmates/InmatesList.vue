@@ -19,10 +19,10 @@
       @closeDialog="close"
       @action="refundInmate"
     />
-    <h1 class="text-base font-semibold leading-6 px-4 sm:px-6 lg:px-8 mb-1">
+    <h1 class="text-base font-semibold leading-6 mb-1">
       Name, Number, Rent.
     </h1>
-    <div class="px-4 sm:px-6 lg:px-8">
+    <div class="">
       <div class="flex sm:items-center sticky top-20">
         <div class="sm:flex-auto">
           <MagnifyingGlassIcon
@@ -30,12 +30,12 @@
             aria-hidden="true"
           />
           <input
-            class="block h-full w-full py-2 pl-8 pr-0 placeholder:text-gray-400 focus:ring-0 focus:border-indigo-400 sm:text-sm border rounded-md border-gray-200"
+            class="block h-full w-full py-2 pl-8 pr-0 placeholder:text-gray-400 focus:ring-0 focus:border-indigo-400 text-sm border rounded-md border-gray-200"
             placeholder="Search..."
             v-model="search"
           />
         </div>
-        <div class="lg:ml-16 ml-5">
+        <div class="lg:ml-16 ml-6">
           <button
             class="whitespace-nowrap"
             type="button"
@@ -46,7 +46,7 @@
           </button>
         </div>
       </div>
-      <div class="mt-8 flow-root">
+      <div class="mt-8 flow-root px-4 sm:px-6 lg:px-8">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-1 align-middle">
             <div class="overflow-hidden">
