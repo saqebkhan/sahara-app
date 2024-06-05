@@ -20,27 +20,25 @@
       @closeDialog="close"
       @action="refundInmate"
     />
+    <h1 class="text-base font-semibold leading-6 px-4 sm:px-6 lg:px-8 mb-1">
+      Name, Number, Rent.
+    </h1>
     <div class="px-4 sm:px-6 lg:px-8">
-      <div class="sm:flex sm:items-center sticky top-20">
+      <div class="flex sm:items-center sticky top-20">
         <div class="sm:flex-auto">
-          <h1 class="text-base font-semibold leading-6">
-            Search by - Name, Number, Rent.
-          </h1>
-          <form class="relative flex flex-1 mt-2">
-            <label for="search-field" class="sr-only">Search</label>
-            <MagnifyingGlassIcon
-              class="pointer-events-none absolute inset-y-0 left-2 h-full w-5 text-gray-400"
-              aria-hidden="true"
-            />
-            <input
-              class="block h-full w-full py-2 pl-8 pr-0 placeholder:text-gray-400 focus:ring-0 focus:border-indigo-400 sm:text-sm border rounded-md border-gray-200"
-              placeholder="Search..."
-              v-model="search"
-            />
-          </form>
+          <MagnifyingGlassIcon
+            class="pointer-events-none absolute inset-y-0 left-2 h-full w-5 text-gray-400"
+            aria-hidden="true"
+          />
+          <input
+            class="block h-full w-full py-2 pl-8 pr-0 placeholder:text-gray-400 focus:ring-0 focus:border-indigo-400 sm:text-sm border rounded-md border-gray-200"
+            placeholder="Search..."
+            v-model="search"
+          />
         </div>
-        <div class="mt-3 sm:ml-16 sm:mt-0 sm:flex-none">
+        <div class="lg:ml-16 ml-5">
           <button
+            class="whitespace-nowrap"
             type="button"
             @click="$router.push({ name: RouteNames.ADD_EDIT_FORM })"
             :class="commonClasses.buttonClasses"
@@ -99,7 +97,7 @@
                         <a
                           href="#"
                           :class="[commonAnchorClasses, 'text-nowrap']"
-                          >DAYS LEFT</a
+                          >REMAINING DAYS</a
                         >
                       </th>
                       <th scope="col" :class="commonHeaderClasses">
@@ -151,7 +149,7 @@
                         {{ person.roomNumber }}
                       </td>
                       <td :class="commonTableDataClasses">
-                        {{ person.dateOfJoining }}
+                        {{ formatDate(person.dateOfJoining) }}
                       </td>
                       <td
                         :class="[commonTableDataClasses, 'flex cursor-pointer']"
@@ -217,6 +215,7 @@ import {
 } from "@heroicons/vue/24/outline";
 import { useStore } from "../../../store";
 import { RouteNames } from "../../../router";
+import { formatDate } from "../../Common/commonFunctions";
 
 const selectedHostelItems = ref([]);
 const inmates = ref([]);

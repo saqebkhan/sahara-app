@@ -74,10 +74,10 @@
 </template>
 
 <script setup>
-import { useStore } from "../../store.js";
+import { useStore } from "../store.js";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
-import logo from "../../assets/sahara-logo.png";
+import logo from "../assets/sahara-logo.png";
 
 const router = useRouter();
 const store = useStore();

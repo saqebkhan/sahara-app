@@ -209,10 +209,20 @@
             <label for="search-field" class="sr-only">Search</label>
             <div class="grid grid-cols-6 relative">
               <h2
-                class="text-nowrap text-xl md:text-2xl lg:text-3xl font-sans font-semibold lg:ml-20 top-1/4 text-center m-0 absolute text-gray-900 cursor-pointer"
+                class="text-nowrap max-sm:hidden sm:mt-1 md:text-2xl md:mt-0 lg:mt-0 lg:text-3xl font-sans font-semibold lg:ml-20 top-1/4 text-center m-0 absolute text-gray-900 cursor-pointer"
                 @click="resetSelectedHostel"
               >
                 {{ store.selectedHostel }}
+              </h2>
+              <h2
+                class="text-nowrap max-sm:block hidden font-sans font-semibold top-1/4 text-center mt-1 absolute text-gray-900 cursor-pointer"
+                @click="resetSelectedHostel"
+              >
+                {{
+                  store.selectedHostel === "SAHARA GROUP OF HOSTELS"
+                    ? "SAHARA GROUP"
+                    : store.selectedHostel
+                }}
               </h2>
             </div>
           </div>
@@ -287,8 +297,8 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useStore } from "../../../store";
-import logo from "../../../assets/sahara-logo.png";
+import { useStore } from "../store";
+import logo from "../assets/sahara-logo.png";
 
 import {
   Dialog,
@@ -312,7 +322,7 @@ import {
   DocumentTextIcon,
 } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
-import { RouteNames } from "../../../router";
+import { RouteNames } from "../router";
 
 const store = useStore();
 
@@ -331,10 +341,30 @@ const navigation = [
     icon: UsersIcon,
     current: false,
   },
-  { name: "Deleted", href: "#", icon: TrashIcon, current: false },
-  { name: "Expense", href: "#", icon: CurrencyRupeeIcon, current: false },
-  { name: "Slots", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "History", href: "#", icon: DocumentTextIcon, current: false },
+  {
+    name: "Deleted",
+    route: RouteNames.DELETED,
+    icon: TrashIcon,
+    current: false,
+  },
+  {
+    name: "Expense",
+    route: RouteNames.EXPENSES,
+    icon: CurrencyRupeeIcon,
+    current: false,
+  },
+  {
+    name: "Slots",
+    route: RouteNames.SLOTS,
+    icon: DocumentDuplicateIcon,
+    current: false,
+  },
+  {
+    name: "History",
+    route: RouteNames.HISTORY,
+    icon: DocumentTextIcon,
+    current: false,
+  },
 ];
 
 const switchCurrent = (item) => {

@@ -170,6 +170,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../../store";
 import axios from "axios";
 import { RouteNames } from "../../../router";
+import { formatDate } from "../../Common/commonFunctions";
 
 const store = useStore();
 const route = useRoute();
@@ -195,9 +196,12 @@ onBeforeMount(() => {
         },
         {
           label: "Expected date of leaving",
-          value: inmate.value.expectedDateOfLeaving,
+          value: formatDate(inmate.value.expectedDateOfLeaving),
         },
-        { label: "Date of Joining", value: inmate.value.dateOfJoining },
+        {
+          label: "Date of Joining",
+          value: formatDate(inmate.value.dateOfJoining),
+        },
         { label: "Aadhar number", value: inmate.value.aadharNumber },
         {
           label: "Emergency Contact Number",

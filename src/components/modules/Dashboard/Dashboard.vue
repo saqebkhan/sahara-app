@@ -1,18 +1,18 @@
 <template>
-  <div class="grid grid-cols-3 gap-6">
+  <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6"> 
     <div
       v-for="(card, index) in cards"
       :key="index"
-      class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow"
     >
       <a href="#">
         <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 "
         >
           {{ card.title }}
         </h5>
       </a>
-      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+      <p class="mb-3 font-normal text-gray-700 ">
         {{ card.description }}
       </p>
       <button
@@ -32,7 +32,7 @@ import { ArrowRightIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import { useStore } from "../../../store.js";
 import { RouteNames } from "../../../router.js";
-import { commonClasses } from "../../Common/commonClass";
+import { commonClasses } from "../../Common/commonClass.js";
 const store = useStore();
 
 const router = useRouter();

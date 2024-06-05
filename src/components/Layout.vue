@@ -10,7 +10,7 @@
 <script setup>
 import { RouteNames } from "../router";
 import { useStore } from "../store";
-import Sidebar from "./modules/Inmates/Sidebar.vue";
+import Sidebar from "./Sidebar.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 const store = useStore();
