@@ -30,9 +30,9 @@
 <script setup>
 import { ArrowRightIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
-import { useStore } from "../../../store.js";
-import { RouteNames } from "../../../router.js";
-import { commonClasses } from "../../Common/commonClass.js";
+import { useStore } from "@/store.js";
+import { RouteNames } from "@/router.js";
+import { commonClasses } from "@/components/Common/commonClass.js";
 const store = useStore();
 
 const router = useRouter();

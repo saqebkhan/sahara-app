@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { RouteNames } from "../router";
+import { RouteNames } from "@/router";
 import { useStore } from "../store";
 import Sidebar from "./Sidebar.vue";
 import { computed } from "vue";

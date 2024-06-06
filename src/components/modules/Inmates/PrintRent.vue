@@ -74,11 +74,11 @@
 </template>
 
 <script setup>
-import saharaLogo from "../../../assets/sahara-logo.png";
+import saharaLogo from "@/assets/sahara-logo.png";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import { onBeforeMount, ref } from "vue";
-import { useStore } from "../../../store";
+import { useStore } from "@/store";
 
 const store = useStore();
 

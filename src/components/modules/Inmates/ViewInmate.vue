@@ -164,9 +164,9 @@
 import { PaperClipIcon } from "@heroicons/vue/20/solid";
 import { onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useStore } from "../../../store";
+import { useStore } from "@/store";
 import axios from "axios";
-import { RouteNames } from "../../../router";
+import { RouteNames } from "@/router";
 import { formatDate } from "../../Common/commonFunctions";
 
 const store = useStore();

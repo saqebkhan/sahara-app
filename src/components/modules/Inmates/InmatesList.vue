@@ -212,8 +212,8 @@ import {
   EyeIcon,
   ArrowUturnUpIcon,
 } from "@heroicons/vue/24/outline";
-import { useStore } from "../../../store";
-import { RouteNames } from "../../../router";
+import { useStore } from "@/store";
+import { RouteNames } from "@/router";
 import { formatDate } from "../../Common/commonFunctions";
 
 const selectedHostelItems = ref([]);

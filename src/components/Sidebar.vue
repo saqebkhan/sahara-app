@@ -322,7 +322,7 @@ import {
   DocumentTextIcon,
 } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
-import { RouteNames } from "../router";
+import { RouteNames } from "@/router";
 
 const store = useStore();
 

@@ -378,7 +378,7 @@
 <script setup>
 import { ref, computed, watch, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "../../../store";
+import { useStore } from "@/store";
 import { commonClasses } from "../../Common/commonClass";
 import axios from "axios";
 

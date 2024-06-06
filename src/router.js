@@ -1,20 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useStore } from "./store";
 
-import Dashboard from "./components/modules/Dashboard/Dashboard.vue";
-import InmatesList from "./components/modules/Inmates/InmatesList.vue";
-import ViewInmate from "./components/modules/Inmates/ViewInmate.vue";
-import PrintRent from "./components/modules/Inmates/PrintRent.vue";
-import AddEditForm from "./components/modules/Inmates/AddEditForm.vue";
-import AddRent from "./components/modules/Inmates/AddRent.vue";
-import Login from "./components/Login.vue";
-import Home from "./components/modules/WebTemplate/Home.vue";
-import NotFound from "./components/Common/NotFound.vue";
-import NoAccess from "./components/Common/NoAccess.vue";
-import Slots from "./components/modules/Slots/Slots.vue";
-import History from "./components/modules/History/History.vue";
-import Expenses from "./components/modules/Expenses/Expenses.vue";
-import Deleted from "./components/modules/Deleted/Deleted.vue";
+import Dashboard from "@/components/modules/Dashboard/Dashboard.vue";
+import InmatesList from "@/components/modules/Inmates/InmatesList.vue";
+import ViewInmate from "@/components/modules/Inmates/ViewInmate.vue";
+import PrintRent from "@/components/modules/Inmates/PrintRent.vue";
+import AddEditForm from "@/components/modules/Inmates/AddEditForm.vue";
+import AddRent from "@/components/modules/Inmates/AddRent.vue";
+import Login from "@/components/Authentication/Login.vue";
+import Home from "@/components/WebTemplate/Home.vue";
+import NotFound from "@/components/Common/NotFound.vue";
+import NoAccess from "@/components/Common/NoAccess.vue";
+import Slots from "@/components/modules/Slots/Slots.vue";
+import History from "@/components/modules/History/History.vue";
+import Expenses from "@/components/modules/Expenses/Expenses.vue";
+import Deleted from "@/components/modules/Deleted/Deleted.vue";
 
 const RouteNames = {
   DASHBOARD: "Dashboard",
