@@ -51,7 +51,10 @@
                     @click="sidebarOpen = false"
                   >
                     <span class="sr-only">Close sidebar</span>
-                    <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
+                    <XMarkIcon
+                      class="h-6 w-6 text-white"
+                      aria-hidden="true"
+                    />
                   </button>
                 </div>
               </TransitionChild>
@@ -60,13 +63,23 @@
                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4"
               >
                 <div class="flex h-16 shrink-0 items-center">
-                  <img class="h-8 w-auto" :src="logo" alt="Your Company" />
+                  <img
+                    class="h-8 w-auto"
+                    :src="logo"
+                    alt="Your Company"
+                  />
                 </div>
                 <!-- For small screens -->
                 <nav class="flex flex-1 flex-col">
-                  <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                  <ul
+                    role="list"
+                    class="flex flex-1 flex-col gap-y-7"
+                  >
                     <li>
-                      <ul role="list" class="-mx-2 space-y-1">
+                      <ul
+                        role="list"
+                        class="-mx-2 space-y-1"
+                      >
                         <li
                           class="cursor-pointer"
                           v-for="item in navigation"
@@ -76,7 +89,7 @@
                             :href="item.href"
                             @click="switchCurrent(item)"
                             :class="[
-                              $route.name === item.route
+                              isActive(item.route)
                                 ? 'bg-gray-50 text-indigo-600'
                                 : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                               'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
@@ -85,7 +98,7 @@
                             <component
                               :is="item.icon"
                               :class="[
-                                $route.name === item.route
+                                isActive(item.route)
                                   ? 'text-indigo-600'
                                   : 'text-gray-400 group-hover:text-indigo-600',
                                 'h-6 w-6 shrink-0',
@@ -129,12 +142,22 @@
         class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4"
       >
         <div class="flex h-16 shrink-0 items-center">
-          <img class="h-14 w-auto" :src="logo" alt="Your Company" />
+          <img
+            class="h-14 w-auto"
+            :src="logo"
+            alt="Your Company"
+          />
         </div>
         <nav class="flex flex-1 flex-col">
-          <ul role="list" class="flex flex-1 flex-col gap-y-7">
+          <ul
+            role="list"
+            class="flex flex-1 flex-col gap-y-7"
+          >
             <li>
-              <ul role="list" class="-mx-2 space-y-1">
+              <ul
+                role="list"
+                class="-mx-2 space-y-1"
+              >
                 <li
                   class="cursor-pointer"
                   v-for="item in navigation"
@@ -143,7 +166,7 @@
                   <a
                     @click="switchCurrent(item)"
                     :class="[
-                      $route.name === item.route
+                      isActive(item.route)
                         ? 'bg-indigo-50 text-indigo-600'
                         : 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50',
                       'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
@@ -152,7 +175,7 @@
                     <component
                       :is="item.icon"
                       :class="[
-                        $route.name === item.route
+                        isActive(item.route)
                           ? 'text-indigo-600'
                           : 'text-gray-400 group-hover:text-indigo-600',
                         'h-6 w-6 shrink-0',
@@ -192,7 +215,10 @@
           @click="sidebarOpen = true"
         >
           <span class="sr-only">Open sidebar</span>
-          <Bars3Icon class="h-6 w-6" aria-hidden="true" />
+          <Bars3Icon
+            class="h-6 w-6"
+            aria-hidden="true"
+          />
         </button>
 
         <!-- Separator -->
@@ -205,8 +231,16 @@
           class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6"
           v-if="$route.name !== RouteNames.PRINT_RENT"
         >
-          <div class="relative flex flex-1" action="#" method="GET">
-            <label for="search-field" class="sr-only">Search</label>
+          <div
+            class="relative flex flex-1"
+            action="#"
+            method="GET"
+          >
+            <label
+              for="search-field"
+              class="sr-only"
+              >Search</label
+            >
             <div class="grid grid-cols-6 relative">
               <h2
                 class="text-nowrap max-sm:hidden sm:mt-1 md:text-2xl md:mt-0 lg:mt-0 lg:text-3xl font-sans font-semibold lg:ml-20 top-1/4 text-center m-0 absolute text-gray-900 cursor-pointer"
@@ -234,7 +268,10 @@
             />
 
             <!-- Profile dropdown -->
-            <Menu as="div" class="relative">
+            <Menu
+              as="div"
+              class="relative"
+            >
               <MenuButton class="-m-1.5 flex items-center p-1.5">
                 <span class="sr-only">Open user menu</span>
                 <img
@@ -296,7 +333,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useStore } from "../store";
 import logo from "../assets/sahara-logo.png";
 
@@ -327,6 +364,8 @@ import { RouteNames } from "@/router";
 const store = useStore();
 
 const router = useRouter();
+
+const route = useRoute();
 
 const navigation = [
   {
@@ -380,6 +419,13 @@ const logout = () => {
   store.isAuthenticated = false;
   sessionStorage.removeItem("isAuthenticated");
   router.push({ name: RouteNames.HOME });
+};
+const isActive = (activeRoute) => {
+  const isKnownRoute = navigation.some((item) => item.route === route.name);
+  return (
+    route.name === activeRoute ||
+    (!isKnownRoute && activeRoute === RouteNames.INMATES)
+  );
 };
 
 const sidebarOpen = ref(false);
