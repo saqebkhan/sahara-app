@@ -493,26 +493,49 @@ const options = computed(() => {
 
 const id = route.query.id;
 
-const submitForm = (e) => {
+const submitForm = async (e) => {
   e.preventDefault();
   if (id) {
     try {
       store.isLoading = true;
-      axios.put(
+      await axios.put(
         `https://sahara-api-f8yp.vercel.app/inmates/${id}`,
         inmate.value
       );
+      store.toast = {
+        message: "Successfully edited",
+        type: "success",
+        isVisible: true,
+      };
     } catch (e) {
       console.log(e);
+      store.toast = {
+        message: "Fail to edit",
+        type: "error",
+        isVisible: true,
+      };
     } finally {
       store.isLoading = false;
     }
   } else {
     try {
       store.isLoading = true;
-      axios.post("https://sahara-api-f8yp.vercel.app/inmates", inmate.value);
+      await axios.post(
+        "https://sahara-api-f8yp.vercel.app/inmates",
+        inmate.value
+      );
+      store.toast = {
+        message: "Successfully added",
+        type: "success",
+        isVisible: true,
+      };
     } catch (e) {
       console.log(e);
+      store.toast = {
+        message: "Fail to add",
+        type: "error",
+        isVisible: true,
+      };
     } finally {
       store.isLoading = false;
     }

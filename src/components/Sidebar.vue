@@ -378,6 +378,7 @@ const resetSelectedHostel = () => {
 
 const logout = () => {
   store.isAuthenticated = false;
+  sessionStorage.removeItem("isAuthenticated");
   router.push({ name: RouteNames.HOME });
 };
 

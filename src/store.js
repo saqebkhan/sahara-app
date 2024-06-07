@@ -6,5 +6,10 @@ export const useStore = defineStore({
     selectedHostel: "SAHARA GROUP OF HOSTELS",
     isAuthenticated: sessionStorage.getItem("isAuthenticated") === "true",
     isLoading: false,
+    toast: {
+      message: "",
+      type: "",
+      isVisible: false,
+    },
   }),
 });
