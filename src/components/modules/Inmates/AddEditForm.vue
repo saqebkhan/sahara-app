@@ -336,7 +336,15 @@
         Save
       </button>
     </div>
+    <div  v-if="isVisible">
+    <success-message/>
+  </div>
+  <div class="button-container">
+    <InstagramButton />
+    <WhatsAppButton />
+  </div>
   </form>
+
 </template>
 
 <script setup>
@@ -344,8 +352,12 @@ import { ref, computed, watch, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "../../../store";
 import axios from "axios";
+import SuccessMessage from '../../Common/SuccessMessage.vue';
+import InstagramButton from '../../Common/InstagramButton.vue'
+import WhatsAppButton from "../../Common/WhatsAppButton.vue";
 const selectedOption = ref("");
 const choosenAmount = ref("");
+const isVisible = ref(false)
 
 const inmate = ref({
   name: "",
@@ -455,10 +467,18 @@ const submitForm = (e) => {
       store.isLoading = true;
       axios.put(
         `https://sahara-api-f8yp.vercel.app/inmates/${id}`,
-        inmate.value
+        inmate.value,
       );
-    } catch (e) {
-      console.log(e);
+      store.errorToastMessage = 'Success';
+        isVisible.value = true
+    } catch (error) {
+      const axiosError = error ;
+      if (axiosError.response?.status === 401) {
+        this.store.errorToastMessage = "no access";
+      } else {
+        this.store.errorToastMessage = "error";
+      }
+      console.log(error);
     } finally {
       store.isLoading = false;
     }
@@ -483,6 +503,8 @@ onBeforeMount(async () => {
         .then((res) => {
           inmate.value = res.data.find((i) => i._id === id);
         });
+        this.store.errorToastMessage ='success'
+        isVisible.value = true
     } catch (e) {
       console.log(e);
     } finally {
@@ -490,3 +512,12 @@ onBeforeMount(async () => {
     }
 });
 </script>
+
+
+<style scoped>
+
+.button-container {
+  display: flex;
+  gap: 20px; 
+}
+</style>

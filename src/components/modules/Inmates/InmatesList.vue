@@ -207,7 +207,7 @@ import { computed, ref, onBeforeMount, watch } from "vue";
 import Dialog from "../../Common/Dialog.vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {
   PencilSquareIcon,
   TrashIcon,
@@ -233,6 +233,12 @@ onBeforeMount(async () => {
     );
     inmates.value = response.data;
   } catch (error) {
+    const axiosError = error ;
+    if (axiosError.response?.status === 401) {
+      store.errorToastMessage = 'noAccessForToastManegar'
+    } else {
+      store.errorToastMessage = 'An error occurred while fetching inmates.';
+    }
     console.error("Error fetching inmates:", error);
   } finally {
     store.isLoading = false;

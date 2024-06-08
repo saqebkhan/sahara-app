@@ -5,6 +5,7 @@
       <router-view />
     </div>
   </main>
+  <toast v-if="store.errorToastMessage" />
 </template>
 
 <script setup>
@@ -13,6 +14,7 @@ import { useStore } from "../store";
 import Sidebar from "./modules/Inmates/Sidebar.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import Toast from './Common/Toast.vue'
 const store = useStore();
 const route = useRoute();
 

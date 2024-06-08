@@ -11,7 +11,7 @@
           Login As Admin
         </button>
       </div>
-    </header>
+    </header> 
 
     <!-- Body -->
     <main class="container mx-auto py-8">
