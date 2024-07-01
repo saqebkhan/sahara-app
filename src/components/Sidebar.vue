@@ -362,6 +362,8 @@ const router = useRouter();
 
 const route = useRoute();
 
+const storePerviousRoute = ref("");
+
 const navigation = [
   {
     name: "Dashboard",
@@ -416,11 +418,18 @@ const logout = () => {
   router.push({ name: RouteNames.HOME });
 };
 const isActive = (activeRoute) => {
-  const isKnownRoute = navigation.some((item) => item.route === route.name);
-  return (
-    route.name === activeRoute ||
-    (!isKnownRoute && activeRoute === RouteNames.INMATES)
-  );
+  if (route.name) {
+    const isKnownRoute = navigation.some((item) => item.route === route.name);
+    if (isKnownRoute) {
+      storePerviousRoute.value = navigation.find(
+        (item) => item.route === route.name,
+      );
+    }
+    return (
+      route.name === activeRoute ||
+      (!isKnownRoute && activeRoute === storePerviousRoute.value.route)
+    );
+  }
 };
 
 const sidebarOpen = ref(false);
