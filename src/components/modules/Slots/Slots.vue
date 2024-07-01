@@ -35,32 +35,72 @@
       <thead class="sticky top-0">
         <tr class="bg-indigo-600 pr-4 divide-x">
           <!-- Header columns -->
-          <th scope="col" :class="commonHeaderClasses">
-            <a href="#" :class="[commonAnchorClasses, 'text-nowrap']"
+          <th
+            scope="col"
+            :class="commonHeaderClasses"
+          >
+            <a
+              href="#"
+              :class="[commonAnchorClasses, 'text-nowrap']"
               >SR. NO.</a
             >
           </th>
-          <th scope="col" :class="commonHeaderClasses">
-            <a href="#" :class="commonAnchorClasses">HOSTEL</a>
+          <th
+            scope="col"
+            :class="commonHeaderClasses"
+          >
+            <a
+              href="#"
+              :class="commonAnchorClasses"
+              >HOSTEL</a
+            >
           </th>
-          <th scope="col" :class="commonHeaderClasses">
-            <a href="#" :class="commonAnchorClasses">ROOM NUMBER</a>
+          <th
+            scope="col"
+            :class="commonHeaderClasses"
+          >
+            <a
+              href="#"
+              :class="commonAnchorClasses"
+              >ROOM NUMBER</a
+            >
           </th>
-          <th scope="col" :class="commonHeaderClasses">
-            <a href="#" :class="commonAnchorClasses">BED</a>
+          <th
+            scope="col"
+            :class="commonHeaderClasses"
+          >
+            <a
+              href="#"
+              :class="commonAnchorClasses"
+              >BED</a
+            >
           </th>
-          <th scope="col" :class="commonHeaderClasses">
-            <a href="#" :class="commonAnchorClasses">SHARING BED</a>
+          <th
+            scope="col"
+            :class="commonHeaderClasses"
+          >
+            <a
+              href="#"
+              :class="commonAnchorClasses"
+              >SHARING BED</a
+            >
           </th>
-          <th scope="col" :class="commonHeaderClasses">
-            <a href="#" :class="commonAnchorClasses">VACANT FILTER</a>
+          <th
+            scope="col"
+            :class="commonHeaderClasses"
+          >
+            <a
+              href="#"
+              :class="commonAnchorClasses"
+              >VACANT FILTER</a
+            >
           </th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200 bg-white">
         <!-- Table rows -->
         <tr
-          v-for="(slot, index) in slots"
+          v-for="(slot, index) in filteredSlotsData"
           :key="slot._id"
           class="hover:bg-indigo-50 divide-x"
         >
@@ -111,7 +151,7 @@ onBeforeMount(async () => {
   try {
     store.isLoading = true;
     const response = await axios.get(
-      "https://sahara-api-f8yp.vercel.app/allInmates"
+      "https://sahara-api-f8yp.vercel.app/allInmates",
     );
     console.log(response.data);
     slots.value = response.data;
@@ -134,5 +174,20 @@ const commonAnchorClasses = computed(() => {
 
 const commonTableDataClasses = computed(() => {
   return " whitespace-nowrap py-4 px-3 text-sm text-gray-600";
+});
+
+const filteredSlotsData = computed(() => {
+  let filtered = slots.value;
+  if (search.value) {
+    const searchTerm = search.value.toLowerCase();
+    filtered = slots.value.filter(
+      (item) =>
+        item.saharaHostelNumber.toLowerCase().includes(searchTerm) ||
+        item.roomNumber.includes(searchTerm) ||
+        item.bedNumber.toString().includes(searchTerm) ||
+        item.sharingRoom.toString().includes(searchTerm),
+    );
+  }
+  return filtered;
 });
 </script>
