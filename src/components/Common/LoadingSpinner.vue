@@ -2,7 +2,6 @@
   <div
     role="status"
     class="absolute inset-0 flex items-center justify-center"
-    v-if="store.isLoading"
   >
     <svg
       aria-hidden="true"
@@ -25,6 +24,4 @@
 </template>
 
 <script setup>
-import { useStore } from "../../store";
-const store = useStore();
 </script>

@@ -15,6 +15,8 @@ import Slots from "@/components/modules/Slots/Slots.vue";
 import History from "@/components/modules/History/History.vue";
 import Expenses from "@/components/modules/Expenses/Expenses.vue";
 import Deleted from "@/components/modules/Deleted/Deleted.vue";
+import AddSlot from "@/components/modules/Slots/AddSlot.vue";
+import DeleteSlot from "@/components/modules/Slots/DeleteSlot.vue";
 
 const RouteNames = {
   DASHBOARD: "Dashboard",
@@ -30,6 +32,8 @@ const RouteNames = {
   HISTORY: "History",
   SLOTS: "Slots",
   DELETED: "Deleted",
+  ADD_SLOT: "AddSlot",
+  DELETE_SLOT: "DeleteSlot",
 };
 
 const accessGuard = async (to, from, next) => {
@@ -104,6 +108,18 @@ const routes = [
     component: Deleted,
     beforeEnter: accessGuard,
     name: RouteNames.DELETED,
+  },
+  {
+    path: "/addSlot",
+    component: AddSlot,
+    beforeEnter: accessGuard,
+    name: RouteNames.ADD_SLOT,
+  },
+  {
+    path: "/deleteSlot",
+    component: DeleteSlot,
+    beforeEnter: accessGuard,
+    name: RouteNames.DELETE_SLOT,
   },
   { path: "/login", component: Login, name: RouteNames.LOGIN },
   { path: "/", component: Home, name: RouteNames.HOME },
