@@ -19,9 +19,7 @@
       @closeDialog="close"
       @action="refundInmate"
     />
-    <h1 class="text-base font-semibold leading-6 mb-1">
-      Name, Number, Rent.
-    </h1>
+    <h1 class="text-base font-semibold leading-6 mb-1">Name, Number, Rent.</h1>
     <div class="">
       <div class="flex sm:items-center sticky top-20">
         <div class="sm:flex-auto">
@@ -50,43 +48,86 @@
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-1 align-middle">
             <div class="overflow-hidden">
-              <div class="overflow-y-auto max-h-[70vh]">
+              <div
+                id="inmates-list"
+                class="overflow-y-auto max-h-[70vh]"
+                @scroll="handleScroll('inmates-list')"
+              >
                 <table
                   class="min-w-full divide-y divide-gray-300 overflow-y-auto"
                 >
                   <thead class="sticky top-0">
                     <tr class="bg-indigo-600 pr-4 divide-x">
                       <!-- Header columns -->
-                      <th scope="col" :class="commonHeaderClasses">
+                      <th
+                        scope="col"
+                        :class="commonHeaderClasses"
+                      >
                         <a
                           href="#"
                           :class="[commonAnchorClasses, 'text-nowrap']"
                           >SR. NO.</a
                         >
                       </th>
-                      <th scope="col" :class="commonHeaderClasses">
-                        <a href="#" :class="commonAnchorClasses">NAME</a>
+                      <th
+                        scope="col"
+                        :class="commonHeaderClasses"
+                      >
+                        <a
+                          href="#"
+                          :class="commonAnchorClasses"
+                          >NAME</a
+                        >
                       </th>
-                      <th scope="col" :class="commonHeaderClasses">
-                        <a href="#" :class="commonAnchorClasses">NUMBER</a>
+                      <th
+                        scope="col"
+                        :class="commonHeaderClasses"
+                      >
+                        <a
+                          href="#"
+                          :class="commonAnchorClasses"
+                          >NUMBER</a
+                        >
                       </th>
-                      <th scope="col" :class="commonHeaderClasses">
-                        <a href="#" :class="commonAnchorClasses">DEPOSIT</a>
+                      <th
+                        scope="col"
+                        :class="commonHeaderClasses"
+                      >
+                        <a
+                          href="#"
+                          :class="commonAnchorClasses"
+                          >DEPOSIT</a
+                        >
                       </th>
-                      <th scope="col" :class="commonHeaderClasses">
+                      <th
+                        scope="col"
+                        :class="commonHeaderClasses"
+                      >
                         <a
                           href="#"
                           :class="[commonAnchorClasses, 'text-nowrap']"
                           >ROOM NO.</a
                         >
                       </th>
-                      <th scope="col" :class="commonHeaderClasses">
-                        <a href="#" :class="commonAnchorClasses"
+                      <th
+                        scope="col"
+                        :class="commonHeaderClasses"
+                      >
+                        <a
+                          href="#"
+                          :class="commonAnchorClasses"
                           >DATE OF JOINING</a
                         >
                       </th>
-                      <th scope="col" :class="commonHeaderClasses">
-                        <a href="#" :class="commonAnchorClasses">RENT</a>
+                      <th
+                        scope="col"
+                        :class="commonHeaderClasses"
+                      >
+                        <a
+                          href="#"
+                          :class="commonAnchorClasses"
+                          >RENT</a
+                        >
                       </th>
                       <th
                         scope="col"
@@ -99,8 +140,15 @@
                           >REMAINING DAYS</a
                         >
                       </th>
-                      <th scope="col" :class="commonHeaderClasses">
-                        <a href="#" :class="commonAnchorClasses">ACTIONS</a>
+                      <th
+                        scope="col"
+                        :class="commonHeaderClasses"
+                      >
+                        <a
+                          href="#"
+                          :class="commonAnchorClasses"
+                          >ACTIONS</a
+                        >
                       </th>
                     </tr>
                   </thead>
@@ -227,7 +275,7 @@ onBeforeMount(async () => {
   try {
     store.isLoading = true;
     const response = await axios.get(
-      "https://sahara-api-f8yp.vercel.app/allInmates"
+      "https://sahara-api-f8yp.vercel.app/allInmates",
     );
     inmates.value = response.data;
   } catch (error) {
@@ -244,7 +292,7 @@ watch(
     if (newValue !== oldValue) {
       selectedHostelInmates();
     }
-  }
+  },
 );
 
 const commonHeaderClasses = computed(() => {
@@ -284,7 +332,7 @@ const filteredItems = computed(() => {
       (item) =>
         item.name.toLowerCase().includes(searchTerm) ||
         item.contactNumber.includes(searchTerm) ||
-        item.amountDeposited.toString().includes(searchTerm)
+        item.amountDeposited.toString().includes(searchTerm),
     );
   }
 
@@ -293,13 +341,13 @@ const filteredItems = computed(() => {
     return filtered.sort(
       (a, b) =>
         Number(a.payHistory[a.payHistory.length - 1].paidDays) -
-        Number(b.payHistory[a.payHistory.length - 1].paidDays)
+        Number(b.payHistory[a.payHistory.length - 1].paidDays),
     );
   } else {
     return filtered.sort(
       (a, b) =>
         Number(b.payHistory[a.payHistory.length - 1].paidDays) -
-        Number(a.payHistory[a.payHistory.length - 1].paidDays)
+        Number(a.payHistory[a.payHistory.length - 1].paidDays),
     );
   }
 });
@@ -360,5 +408,25 @@ const addRent = (person) => {
     name: RouteNames.ADD_RENT,
     query: { param: "addRent", id: person._id },
   });
+};
+
+const handleScroll = async (id) => {
+  const scrollData = document.querySelector(`#${id}`);
+  if (
+    Math.abs(
+      scrollData.scrollTop + scrollData.offsetHeight - scrollData.scrollHeight,
+    ) <= 1
+  ) {
+    try {
+      const response = await axios.get(
+        "https://sahara-api-f8yp.vercel.app/allInmates",
+      );
+      inmates.value = inmates.value.concat(response.data);
+      console.log("inmates", inmates.value);
+    } catch (error) {
+      console.error("Error fetching inmates:", error);
+    }
+    selectedHostelInmates();
+  }
 };
 </script>
